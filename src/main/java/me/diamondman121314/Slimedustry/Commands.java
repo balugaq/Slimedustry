@@ -1,7 +1,5 @@
 package me.diamondman121314.Slimedustry;
 
-import java.util.List;
-
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
+import java.util.List;
+
 public class Commands implements CommandExecutor {
     private final Plugin plugin;
 
@@ -22,7 +22,7 @@ public class Commands implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
-            Player p = (Player)sender;
+            Player p = (Player) sender;
             if (args.length == 0) {
                 p.sendMessage(ChatColors.color("&r\n&aSlimedustry &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &bReloads the config\n&3/sd charge {Player} &bFully charges the item in the main hand"));
                 return true;
@@ -71,9 +71,9 @@ public class Commands implements CommandExecutor {
                     if (lore.size() < 3) {
                         return true;
                     }
-                    if (((String)lore.get(1)).contains("Charge:") && ((String)lore.get(2)).contains("Capacity:")) {
-                        double charge = Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-                        double capacity = Double.valueOf(((String)lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                    if (((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:")) {
+                        double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                        double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                         charge = capacity;
                         lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
                         ItemMeta im = target.getInventory().getItemInMainHand().getItemMeta();
@@ -84,7 +84,7 @@ public class Commands implements CommandExecutor {
             }
         } else {
 
-            ConsoleCommandSender c = (ConsoleCommandSender)sender;
+            ConsoleCommandSender c = (ConsoleCommandSender) sender;
             if (args.length == 0) {
                 c.sendMessage(ChatColors.color("&r\n&aSlimedustry &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &bReloads the config\n&3/sd charge {Player} &bFully charges the item in the main hand"));
                 return true;
@@ -125,9 +125,9 @@ public class Commands implements CommandExecutor {
                     if (lore.size() < 3) {
                         return true;
                     }
-                    if (((String)lore.get(1)).contains("Charge:") && ((String)lore.get(2)).contains("Capacity:")) {
-                        double charge = Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-                        double capacity = Double.valueOf(((String)lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                    if (((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:")) {
+                        double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                        double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                         charge = capacity;
                         lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
                         ItemMeta im = target.getInventory().getItemInMainHand().getItemMeta();

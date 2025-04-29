@@ -1,14 +1,9 @@
 package me.diamondman121314.Slimedustry.Listeners;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import me.diamondman121314.Slimedustry.Slimedustry;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -27,20 +22,44 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.List;
+
 
 public class EntitiesListener implements Listener {
     private static HashMap<Player, Vector> Locations = new HashMap<>();
+    Plugin plugin;
 
     public EntitiesListener(Slimedustry plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin)plugin);
-        this.plugin = (Plugin)plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) plugin);
+        this.plugin = (Plugin) plugin;
     }
-    Plugin plugin;
+
+    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
+        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
+        if (sfitem != null) {
+            Research research = sfitem.getResearch();
+            if (research != null) {
+                PlayerProfile profile = PlayerProfile.find(player).get();
+                if (profile != null) {
+                    if (profile.hasUnlocked(research)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onProjectileHit(ProjectileHitEvent e) {
         if (e.getEntityType() == EntityType.SNOWBALL) {
-            Snowball s = (Snowball)e.getEntity();
-            Player p = (Player)s.getShooter();
+            Snowball s = (Snowball) e.getEntity();
+            Player p = (Player) s.getShooter();
             if (p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser")) {
                 BlockIterator iterator = new BlockIterator(e.getEntity().getWorld(), e.getEntity().getLocation().toVector(), e.getEntity().getVelocity().normalize(), 0.0, 4);
                 Block b = null;
@@ -55,14 +74,14 @@ public class EntitiesListener implements Listener {
                 }
                 Vector vec = s.getVelocity();
                 s.remove();
-                if (((String)p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
                     b.breakNaturally();
                 }
 
-                if (((String)p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
                     b.getWorld().createExplosion(b.getLocation(), this.plugin.getConfig().getInt("MiningLaser.ExplosionStrength"));
                 }
-                if (((String)p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat"))
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat"))
                     b.setType(Material.FIRE);
             }
         }
@@ -84,9 +103,9 @@ public class EntitiesListener implements Listener {
             List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
 
 
-            double charge = Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-            double capacity = Double.valueOf(((String)lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-            if (lore.size() > 2 && ((String)lore.get(1)).contains("Charge:") && ((String)lore.get(2)).contains("Capacity:") && Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue() <= capacity) {
+            double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            if (lore.size() > 2 && ((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:") && Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue() <= capacity) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue();
                 lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
                 ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
@@ -96,20 +115,19 @@ public class EntitiesListener implements Listener {
         }
     }
 
-
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDamage(EntityDamageEvent e) {
         Entity ent = e.getEntity();
         if (ent.getType() == EntityType.PLAYER) {
-            Player p = (Player)ent;
+            Player p = (Player) ent;
             if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Boots")) {
-                p.getInventory().getBoots().setDurability((short)0);
+                p.getInventory().getBoots().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getBoots())) {
                     ItemMeta im = p.getInventory().getBoots().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 2.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getBoots().setItemMeta(im);
                     }
@@ -118,13 +136,13 @@ public class EntitiesListener implements Listener {
 
 
             if (p.getInventory().getLeggings() != null && p.getInventory().getLeggings().hasItemMeta() && p.getInventory().getLeggings().getItemMeta().hasDisplayName() && p.getInventory().getLeggings().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Leggings")) {
-                p.getInventory().getLeggings().setDurability((short)0);
+                p.getInventory().getLeggings().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getLeggings())) {
                     ItemMeta im = p.getInventory().getLeggings().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 3.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getLeggings().setItemMeta(im);
                     }
@@ -133,13 +151,13 @@ public class EntitiesListener implements Listener {
 
 
             if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().hasItemMeta() && p.getInventory().getChestplate().getItemMeta().hasDisplayName() && p.getInventory().getChestplate().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Chestplate")) {
-                p.getInventory().getChestplate().setDurability((short)0);
+                p.getInventory().getChestplate().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getChestplate())) {
                     ItemMeta im = p.getInventory().getChestplate().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 4.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getChestplate().setItemMeta(im);
                     }
@@ -148,13 +166,13 @@ public class EntitiesListener implements Listener {
 
 
             if (p.getInventory().getHelmet() != null && p.getInventory().getHelmet().hasItemMeta() && p.getInventory().getHelmet().getItemMeta().hasDisplayName() && p.getInventory().getHelmet().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Helmet")) {
-                p.getInventory().getHelmet().setDurability((short)0);
+                p.getInventory().getHelmet().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getHelmet())) {
                     ItemMeta im = p.getInventory().getHelmet().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 2.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getHelmet().setItemMeta(im);
                     }
@@ -163,29 +181,10 @@ public class EntitiesListener implements Listener {
 
 
             if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&6Rubber Boots")) {
-                p.getInventory().getBoots().setDurability((short)0);
+                p.getInventory().getBoots().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getBoots()) && e.getCause() == EntityDamageEvent.DamageCause.FALL)
                     e.setCancelled(true);
             }
         }
-    }
-
-    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
-        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
-        if (sfitem != null) {
-            Research research = sfitem.getResearch();
-            if (research != null) {
-                PlayerProfile profile = PlayerProfile.find(player).get();
-                if (profile != null) {
-                    if (profile.hasUnlocked(research)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
     }
 }

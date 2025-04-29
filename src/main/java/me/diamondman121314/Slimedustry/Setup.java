@@ -8,9 +8,6 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ChargableItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,20 +17,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class Setup {
-    public static MultiBlockMachine iwMachine;
-    public static MultiBlockMachine pbMachine;
-    public static MultiBlockMachine mfMachine;
-    static RecipeType iwType;
-    static RecipeType pbType;
-    static RecipeType mfType;
-    static RecipeType ldType;
-    static ItemGroup SLIMEDUSTRY;
-    static ItemGroup DUSTS;
-    static ItemGroup PLATES;
-    static ItemGroup INGOTS;
     public static final SlimefunItemStack INDUSTRIAL_WORKBENCH = new SlimefunItemStack("INDUSTRIAL_WORKBENCH", Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oUsed for Industrial Crafting");
     public static final SlimefunItemStack PLATE_BENDER = new SlimefunItemStack("PLATE_BENDER", Material.PISTON, "&bPlate Bender", "", "&a&oCan bend Ingots into Plates");
     public static final SlimefunItemStack MASS_FABRICATOR = new SlimefunItemStack("MASS_FABRICATOR", Material.BEACON, "&9&lMass Fabricator", "", "&a&oGenerates UU-Matter");
@@ -58,12 +42,32 @@ public class Setup {
     public static final SlimefunItemStack MINING_LASER = new SlimefunItemStack("MINING_LASER", Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode");
     public static final SlimefunItemStack ROCK_CUTTER = new SlimefunItemStack("ROCK_CUTTER", Material.DIAMOND_PICKAXE, "&bRock Cutter", "", "&7Charge: &b0.0 J", "&7Capacity: &b100.0 J");
     public static final SlimefunItemStack COMPOSITE_VEST = new SlimefunItemStack("COMPOSITE_VEST", Material.IRON_CHESTPLATE, "&7Composite Vest");
+    public static MultiBlockMachine iwMachine;
+    public static MultiBlockMachine pbMachine;
+    public static MultiBlockMachine mfMachine;
+    static RecipeType iwType;
+    static RecipeType pbType;
+    static RecipeType mfType;
+    static RecipeType ldType;
+    static ItemGroup SLIMEDUSTRY;
+    static ItemGroup DUSTS;
+    static ItemGroup PLATES;
+    static ItemGroup INGOTS;
+    static ItemGroup MISC;
+    static ItemGroup RESOURCES;
+    static ItemGroup TECH;
+    static ItemGroup ARMOR;
 
     public static void setupMisc(Slimedustry main) {
         SLIMEDUSTRY = new ItemGroup(new NamespacedKey(main, "slimedustry"), new CustomItemStack(Material.BEACON, "&7Slimedustry"));
         DUSTS = new ItemGroup(new NamespacedKey(main, "dusts"), new CustomItemStack(Material.SUGAR, "&7Dusts"));
         PLATES = new ItemGroup(new NamespacedKey(main, "plates"), new CustomItemStack(Material.MAP, "&7Plates"));
         INGOTS = new ItemGroup(new NamespacedKey(main, "ingots"), new CustomItemStack(Material.IRON_INGOT, "&7Ingots"));
+        MISC = new ItemGroup(new NamespacedKey(main, "misc"), new CustomItemStack(Material.GLASS_BOTTLE, "&7Misc"));
+        RESOURCES = new ItemGroup(new NamespacedKey(main, "resource"), new CustomItemStack(Material.GRASS_BLOCK, "&7Resource"));
+        TECH = new ItemGroup(new NamespacedKey(main, "tech"), new CustomItemStack(Material.REDSTONE, "&7Tech"));
+        ARMOR = new ItemGroup(new NamespacedKey(main, "armor"), new CustomItemStack(Material.IRON_CHESTPLATE, "&7Armor"));
+
 
         iwType = new RecipeType(new NamespacedKey(main, "industrial_crafting_table_material"), new CustomItemStack(Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oCraft it in an Industrial Crafting Table"));
         pbType = new RecipeType(new NamespacedKey(main, "plate_bender_material"), new CustomItemStack(Material.PISTON, "&bPlate Bender", "", "&a&oBend it in a Plate Bender"));
@@ -80,37 +84,37 @@ public class Setup {
             public void onInteract(Player player, Block block) {
             }
         };
-        pbMachine = new MultiBlockMachine(SLIMEDUSTRY, PLATE_BENDER, new ItemStack[] {null, null, null, null, new ItemStack(Material.PISTON), null, null, new CustomItemStack(Material.DISPENSER, "&r&oDispenser (Facing Up)"), null}, /*new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.REINFORCED_ALLOY_INGOT, REINFORCED_ALLOY_PLATE}, */new ItemStack[0], BlockFace.SELF)  {
+        pbMachine = new MultiBlockMachine(SLIMEDUSTRY, PLATE_BENDER, new ItemStack[]{null, null, null, null, new ItemStack(Material.PISTON), null, null, new CustomItemStack(Material.DISPENSER, "&r&oDispenser (Facing Up)"), null}, /*new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.REINFORCED_ALLOY_INGOT, REINFORCED_ALLOY_PLATE}, */new ItemStack[0], BlockFace.SELF) {
             @Override
             public void onInteract(Player player, Block block) {
             }
         };
-        mfMachine = new MultiBlockMachine(SLIMEDUSTRY, MASS_FABRICATOR, new ItemStack[] {null, new ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE), null, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.BEACON), null}, /*new ItemStack[] {SlimefunItems.POWER_CRYSTAL, UU_MATTER}, */new ItemStack[0], BlockFace.SELF)  {
+        mfMachine = new MultiBlockMachine(SLIMEDUSTRY, MASS_FABRICATOR, new ItemStack[]{null, new ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE), null, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), null, new ItemStack(Material.BEACON), null}, /*new ItemStack[] {SlimefunItems.POWER_CRYSTAL, UU_MATTER}, */new ItemStack[0], BlockFace.SELF) {
             @Override
             public void onInteract(Player player, Block block) {
             }
         };
-        SlimefunItem tankItem = new SlimefunItem(SLIMEDUSTRY, TANK, RecipeType.MULTIBLOCK, new ItemStack[] {null, null, null, null, new ItemStack(Material.WHITE_STAINED_GLASS), null, null, new CustomItemStack(Material.DISPENSER, "&r&oDispenser (Facing Up)"), null});
-        SlimefunItem rgItem = new SlimefunItem(SLIMEDUSTRY, REINFORCED_GLASS, iwType, new ItemStack[] {new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), REINFORCED_ALLOY_PLATE, new ItemStack(Material.GLASS), REINFORCED_ALLOY_PLATE, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS)});
-        SlimefunItem nukeItem = new SlimefunItem(SLIMEDUSTRY, NUKE, iwType, new ItemStack[] {new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER)});
-        SlimefunItem rubberItem = new SlimefunItem(Categories.RESOURCES, RUBBER, RecipeType.SMELTERY, new ItemStack[] {STICKY_RESIN, null, null, null, null, null, null, null, null});
-        SlimefunItem srItem = new SlimefunItem(Categories.MISC, STICKY_RESIN, ldType, new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_LEAVES), null, null, null, null});
-        SlimefunItem rapItem = new SlimefunItem(PLATES, REINFORCED_ALLOY_PLATE, pbType, new ItemStack[] {null, null, null, null, SlimefunItems.REINFORCED_ALLOY_INGOT, null, null, null, null});
-        SlimefunItem tiItem = new SlimefunItem(INGOTS, TITANIUM_INGOT, RecipeType.SMELTERY, new ItemStack[] {TITANIUM_DUST, null, null, null, null, null, null, null, null});
-        SlimefunItem tdItem = new SlimefunItem(DUSTS, TITANIUM_DUST, iwType, new ItemStack[] {IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, new ItemStack(Material.WATER_BUCKET), IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST});
-        SlimefunItem itItem = new SlimefunItem(DUSTS, IMPURE_TITANIUM_DUST, RecipeType.ORE_WASHER, new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null});
-        SlimefunItem ioItem = new SlimefunItem(Categories.RESOURCES, IRIDIUM_ORE, iwType, new ItemStack[] {UU_MATTER, UU_MATTER, UU_MATTER, null, UU_MATTER, null, UU_MATTER, UU_MATTER, UU_MATTER});
-        SlimefunItem ipItem = new SlimefunItem(PLATES, IRIDIUM_PLATE, iwType, new ItemStack[] {IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.DIAMOND), REINFORCED_ALLOY_PLATE, IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, IRIDIUM_ORE});
-        SlimefunItem uuItem = new SlimefunItem(Categories.RESOURCES, UU_MATTER, mfType, new ItemStack[] {null, null, null, null, SlimefunItems.POWER_CRYSTAL, null, null, null, null});
-        SlimefunItem rbItem = new SlimefunItem(Categories.TECH, SD_RUBBER_BOOTS, iwType, new ItemStack[] {null, null, null, RUBBER, null, RUBBER, RUBBER, new ItemStack(Material.SLIME_BLOCK), RUBBER});
-        SlimefunItem sbItem = new SlimefunItem(Categories.TECH, STATIC_BOOTS, iwType, new ItemStack[] {null, new ItemStack(Material.IRON_BOOTS), null, null, new ItemStack(Material.WHITE_WOOL), null, RUBBER, RUBBER, RUBBER});
-        ChargableItem nhItem = new ChargableItem(Categories.ARMOR, NANO_HELMET, RecipeType.ARMOR_FORGE, new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.NIGHT_VISION_GOGGLES, SlimefunItems.CARBON, null, null, null});
-        ChargableItem ncItem = new ChargableItem(Categories.ARMOR, NANO_CHESTPLATE, RecipeType.ARMOR_FORGE, new ItemStack[] {SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON});
-        ChargableItem nlItem = new ChargableItem(Categories.ARMOR, NANO_LEGGINGS, RecipeType.ARMOR_FORGE, new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, null, SlimefunItems.CARBON});
-        ChargableItem nbItem = new ChargableItem(Categories.ARMOR, NANO_BOOTS, RecipeType.ARMOR_FORGE, new ItemStack[] {null, null, null, SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON});
-        ChargableItem mlItem = new ChargableItem(Categories.TECH, MINING_LASER, iwType, new ItemStack[] {new ItemStack(Material.REDSTONE), SlimefunItems.POWER_CRYSTAL, SlimefunItems.POWER_CRYSTAL, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, SlimefunItems.ADVANCED_CIRCUIT_BOARD, null, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE});
-        ChargableItem rcItem = new ChargableItem(Categories.TECH, ROCK_CUTTER, iwType, new ItemStack[] {new ItemStack(Material.DIAMOND), TITANIUM_INGOT, null, new ItemStack(Material.DIAMOND), TITANIUM_INGOT, null, new ItemStack(Material.DIAMOND), SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.BATTERY});
-        SlimefunItem cvItem = new SlimefunItem(Categories.ARMOR, COMPOSITE_VEST, RecipeType.ARMOR_FORGE, new ItemStack[] {REINFORCED_ALLOY_PLATE, null, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.IRON_CHESTPLATE), REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.LEATHER_CHESTPLATE), REINFORCED_ALLOY_PLATE});
+        SlimefunItem tankItem = new SlimefunItem(SLIMEDUSTRY, TANK, RecipeType.MULTIBLOCK, new ItemStack[]{null, null, null, null, new ItemStack(Material.WHITE_STAINED_GLASS), null, null, new CustomItemStack(Material.DISPENSER, "&r&oDispenser (Facing Up)"), null});
+        SlimefunItem rgItem = new SlimefunItem(SLIMEDUSTRY, REINFORCED_GLASS, iwType, new ItemStack[]{new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), REINFORCED_ALLOY_PLATE, new ItemStack(Material.GLASS), REINFORCED_ALLOY_PLATE, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS)});
+        SlimefunItem nukeItem = new SlimefunItem(SLIMEDUSTRY, NUKE, iwType, new ItemStack[]{new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER), SlimefunItems.URANIUM, new ItemStack(Material.GUNPOWDER)});
+        SlimefunItem rubberItem = new SlimefunItem(RESOURCES, RUBBER, RecipeType.SMELTERY, new ItemStack[]{STICKY_RESIN, null, null, null, null, null, null, null, null});
+        SlimefunItem srItem = new SlimefunItem(MISC, STICKY_RESIN, ldType, new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_LEAVES), null, null, null, null});
+        SlimefunItem rapItem = new SlimefunItem(PLATES, REINFORCED_ALLOY_PLATE, pbType, new ItemStack[]{null, null, null, null, SlimefunItems.REINFORCED_ALLOY_INGOT, null, null, null, null});
+        SlimefunItem tiItem = new SlimefunItem(INGOTS, TITANIUM_INGOT, RecipeType.SMELTERY, new ItemStack[]{TITANIUM_DUST, null, null, null, null, null, null, null, null});
+        SlimefunItem tdItem = new SlimefunItem(DUSTS, TITANIUM_DUST, iwType, new ItemStack[]{IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, new ItemStack(Material.WATER_BUCKET), IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST, IMPURE_TITANIUM_DUST});
+        SlimefunItem itItem = new SlimefunItem(DUSTS, IMPURE_TITANIUM_DUST, RecipeType.ORE_WASHER, new ItemStack[]{SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null});
+        SlimefunItem ioItem = new SlimefunItem(RESOURCES, IRIDIUM_ORE, iwType, new ItemStack[]{UU_MATTER, UU_MATTER, UU_MATTER, null, UU_MATTER, null, UU_MATTER, UU_MATTER, UU_MATTER});
+        SlimefunItem ipItem = new SlimefunItem(PLATES, IRIDIUM_PLATE, iwType, new ItemStack[]{IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.DIAMOND), REINFORCED_ALLOY_PLATE, IRIDIUM_ORE, REINFORCED_ALLOY_PLATE, IRIDIUM_ORE});
+        SlimefunItem uuItem = new SlimefunItem(RESOURCES, UU_MATTER, mfType, new ItemStack[]{null, null, null, null, SlimefunItems.POWER_CRYSTAL, null, null, null, null});
+        SlimefunItem rbItem = new SlimefunItem(TECH, SD_RUBBER_BOOTS, iwType, new ItemStack[]{null, null, null, RUBBER, null, RUBBER, RUBBER, new ItemStack(Material.SLIME_BLOCK), RUBBER});
+        SlimefunItem sbItem = new SlimefunItem(TECH, STATIC_BOOTS, iwType, new ItemStack[]{null, new ItemStack(Material.IRON_BOOTS), null, null, new ItemStack(Material.WHITE_WOOL), null, RUBBER, RUBBER, RUBBER});
+        RechargeableItem nhItem = new RechargeableItem(ARMOR, NANO_HELMET, RecipeType.ARMOR_FORGE, new ItemStack[]{SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.NIGHT_VISION_GOGGLES, SlimefunItems.CARBON, null, null, null}, 1024);
+        RechargeableItem ncItem = new RechargeableItem(ARMOR, NANO_CHESTPLATE, RecipeType.ARMOR_FORGE, new ItemStack[]{SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON}, 1024);
+        RechargeableItem nlItem = new RechargeableItem(ARMOR, NANO_LEGGINGS, RecipeType.ARMOR_FORGE, new ItemStack[]{SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON, SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, null, SlimefunItems.CARBON}, 1024);
+        RechargeableItem nbItem = new RechargeableItem(ARMOR, NANO_BOOTS, RecipeType.ARMOR_FORGE, new ItemStack[]{null, null, null, SlimefunItems.CARBON, null, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBON}, 1024);
+        RechargeableItem mlItem = new RechargeableItem(TECH, MINING_LASER, iwType, new ItemStack[]{new ItemStack(Material.REDSTONE), SlimefunItems.POWER_CRYSTAL, SlimefunItems.POWER_CRYSTAL, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, SlimefunItems.ADVANCED_CIRCUIT_BOARD, null, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE}, 1024);
+        RechargeableItem rcItem = new RechargeableItem(TECH, ROCK_CUTTER, iwType, new ItemStack[]{new ItemStack(Material.DIAMOND), TITANIUM_INGOT, null, new ItemStack(Material.DIAMOND), TITANIUM_INGOT, null, new ItemStack(Material.DIAMOND), SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.BATTERY}, 1024);
+        SlimefunItem cvItem = new SlimefunItem(ARMOR, COMPOSITE_VEST, RecipeType.ARMOR_FORGE, new ItemStack[]{REINFORCED_ALLOY_PLATE, null, REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.IRON_CHESTPLATE), REINFORCED_ALLOY_PLATE, REINFORCED_ALLOY_PLATE, new ItemStack(Material.LEATHER_CHESTPLATE), REINFORCED_ALLOY_PLATE});
 
         mfMachine.addRecipe(uuItem.getRecipe(), UU_MATTER);
         iwMachine.addRecipe(rgItem.getRecipe(), REINFORCED_GLASS);
@@ -123,10 +127,10 @@ public class Setup {
         iwMachine.addRecipe(rbItem.getRecipe(), SD_RUBBER_BOOTS);
 
         //mfMachine.addRecipe(new ItemStack[] {null, null, null, null, null, null, null, SlimefunItems.POWER_CRYSTAL, null}, SlimefunItem.getByItem(UU_MATTER));
-        iwMachine.addRecipe(new ItemStack[] {RUBBER, RUBBER, RUBBER, new ItemStack(Material.REDSTONE), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.REDSTONE), RUBBER, RUBBER, RUBBER}, SlimefunItems.BASIC_CIRCUIT_BOARD);
-        iwMachine.addRecipe(new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE), new ItemStack(Material.INK_SAC), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.INK_SAC), new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE)}, SlimefunItems.ADVANCED_CIRCUIT_BOARD);
-        iwMachine.addRecipe(new ItemStack[] {new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), REINFORCED_GLASS, new ItemStack(Material.BLACK_WOOL), null, null, null}, SlimefunItems.SCUBA_HELMET);
-        iwMachine.addRecipe(new ItemStack[] {new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), REINFORCED_GLASS, new ItemStack(Material.COAL_BLOCK), REINFORCED_GLASS, new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)}, SlimefunItems.NIGHT_VISION_GOGGLES);
+        iwMachine.addRecipe(new ItemStack[]{RUBBER, RUBBER, RUBBER, new ItemStack(Material.REDSTONE), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.REDSTONE), RUBBER, RUBBER, RUBBER}, SlimefunItems.BASIC_CIRCUIT_BOARD);
+        iwMachine.addRecipe(new ItemStack[]{new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE), new ItemStack(Material.INK_SAC), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.INK_SAC), new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE)}, SlimefunItems.ADVANCED_CIRCUIT_BOARD);
+        iwMachine.addRecipe(new ItemStack[]{new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), REINFORCED_GLASS, new ItemStack(Material.BLACK_WOOL), null, null, null}, SlimefunItems.SCUBA_HELMET);
+        iwMachine.addRecipe(new ItemStack[]{new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), REINFORCED_GLASS, new ItemStack(Material.COAL_BLOCK), REINFORCED_GLASS, new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)}, SlimefunItems.NIGHT_VISION_GOGGLES);
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.BATTERY).getRecipe(), SlimefunItems.BATTERY);
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.STEEL_THRUSTER).getRecipe(), SlimefunItems.STEEL_THRUSTER);
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.POWER_CRYSTAL).getRecipe(), SlimefunItems.POWER_CRYSTAL);
@@ -154,7 +158,7 @@ public class Setup {
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.PARACHUTE).getRecipe(), SlimefunItems.PARACHUTE);
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.SOLAR_HELMET).getRecipe(), SlimefunItems.SOLAR_HELMET);
         iwMachine.addRecipe(SlimefunItem.getByItem(SlimefunItems.ARMORED_JETBOOTS).getRecipe(), SlimefunItems.ARMORED_JETBOOTS);
-        ((MultiBlockMachine)SlimefunItem.getByItem(SlimefunItems.ORE_WASHER)).addRecipe(new ItemStack[] {SlimefunItems.SIFTED_ORE}, IMPURE_TITANIUM_DUST);
+        ((MultiBlockMachine) SlimefunItem.getByItem(SlimefunItems.ORE_WASHER)).addRecipe(new ItemStack[]{SlimefunItems.SIFTED_ORE}, IMPURE_TITANIUM_DUST);
 
         iwMachine.register(main);
         tankItem.register(main);
@@ -187,7 +191,7 @@ public class Setup {
         new Research(new NamespacedKey(main, "tank"), 85851002, "Liquid Storage", 7).addItems(TANK).register();
         new Research(new NamespacedKey(main, "reinforced_glass"), 85851003, "Reinforced Glass", 10).addItems(REINFORCED_GLASS).register();
         new Research(new NamespacedKey(main, "plate_bender"), 85851004, "Plate Bender", 12).addItems(PLATE_BENDER).register();
-        new Research(new NamespacedKey(main, "mining_laser"), 85851005,"Mining Laser", 13).addItems(MINING_LASER).register();
+        new Research(new NamespacedKey(main, "mining_laser"), 85851005, "Mining Laser", 13).addItems(MINING_LASER).register();
         new Research(new NamespacedKey(main, "nuke"), 85851006, "Nuke", 15).addItems(NUKE).register();
         new Research(new NamespacedKey(main, "sticky_situation"), 85851007, "Sticky Situation", 5).addItems(STICKY_RESIN).register();
         new Research(new NamespacedKey(main, "plates"), 85851008, "Plates", 6).addItems(REINFORCED_ALLOY_PLATE, IRIDIUM_PLATE).register();
@@ -201,9 +205,9 @@ public class Setup {
     }
 
     public static void changeRecipes() {
-        SlimefunItem.getByItem(SlimefunItems.BASIC_CIRCUIT_BOARD).setRecipe(new ItemStack[] {RUBBER, RUBBER, RUBBER, new ItemStack(Material.REDSTONE), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.REDSTONE), RUBBER, RUBBER, RUBBER});
+        SlimefunItem.getByItem(SlimefunItems.BASIC_CIRCUIT_BOARD).setRecipe(new ItemStack[]{RUBBER, RUBBER, RUBBER, new ItemStack(Material.REDSTONE), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.REDSTONE), RUBBER, RUBBER, RUBBER});
         SlimefunItem.getByItem(SlimefunItems.BASIC_CIRCUIT_BOARD).setRecipeType(iwType);
-        SlimefunItem.getByItem(SlimefunItems.ADVANCED_CIRCUIT_BOARD).setRecipe(new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE), new ItemStack(Material.INK_SAC), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.INK_SAC), new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE)});
+        SlimefunItem.getByItem(SlimefunItems.ADVANCED_CIRCUIT_BOARD).setRecipe(new ItemStack[]{new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE), new ItemStack(Material.INK_SAC), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.INK_SAC), new ItemStack(Material.REDSTONE), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.REDSTONE)});
         SlimefunItem.getByItem(SlimefunItems.ADVANCED_CIRCUIT_BOARD).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.STEEL_THRUSTER).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.POWER_CRYSTAL).setRecipeType(iwType);
@@ -232,10 +236,10 @@ public class Setup {
         SlimefunItem.getByItem(SlimefunItems.PARACHUTE).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.SOLAR_HELMET).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.ARMORED_JETBOOTS).setRecipeType(iwType);
-        SlimefunItem.getByItem(SlimefunItems.SCUBA_HELMET).setRecipe(new ItemStack[] {new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.BLACK_WOOL), null, null, null});
-        SlimefunItem.getByItem(SlimefunItems.RUBBER_BOOTS).setRecipe(new ItemStack[] {null, null, null, RUBBER, null, RUBBER, RUBBER, null, RUBBER});
-        SlimefunItem.getByItem(SlimefunItems.NIGHT_VISION_GOGGLES).setRecipe(new ItemStack[] {new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)});
-        SlimefunItem.getByItem(SlimefunItems.STEEL_PLATE).setRecipe(new ItemStack[] {null, null, null, null, SlimefunItem.getByItem(SlimefunItems.STEEL_INGOT).getItem(), null, null, null, null});
+        SlimefunItem.getByItem(SlimefunItems.SCUBA_HELMET).setRecipe(new ItemStack[]{new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.BLACK_WOOL), null, null, null});
+        SlimefunItem.getByItem(SlimefunItems.HAZMAT_BOOTS).setRecipe(new ItemStack[]{null, null, null, RUBBER, null, RUBBER, RUBBER, null, RUBBER});
+        SlimefunItem.getByItem(SlimefunItems.NIGHT_VISION_GOGGLES).setRecipe(new ItemStack[]{new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)});
+        SlimefunItem.getByItem(SlimefunItems.STEEL_PLATE).setRecipe(new ItemStack[]{null, null, null, null, SlimefunItem.getByItem(SlimefunItems.STEEL_INGOT).getItem(), null, null, null, null});
         SlimefunItem.getByItem(SlimefunItems.STEEL_PLATE).setRecipeType(pbType);
     }
 

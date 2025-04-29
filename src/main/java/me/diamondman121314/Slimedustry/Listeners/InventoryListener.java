@@ -17,14 +17,15 @@ import org.bukkit.plugin.Plugin;
 
 public class InventoryListener implements Listener {
     public InventoryListener(Slimedustry plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin)plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) plugin);
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryInteract(InventoryClickEvent e) {
-        Player p = (Player)e.getWhoClicked();
+        Player p = (Player) e.getWhoClicked();
         Inventory i = e.getInventory();
         if (i.getType() == InventoryType.DISPENSER) {
-            Dispenser d = (Dispenser)i.getHolder();
+            Dispenser d = (Dispenser) i.getHolder();
             if (d.getBlock().getRelative(BlockFace.UP).getType() == Material.WHITE_STAINED_GLASS)
                 e.setCancelled(true);
         }

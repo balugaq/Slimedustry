@@ -1,19 +1,13 @@
 package me.diamondman121314.Slimedustry.Listeners;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.diamondman121314.Slimedustry.Slimedustry;
 import me.diamondman121314.Slimedustry.Setup;
+import me.diamondman121314.Slimedustry.Slimedustry;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,13 +30,51 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 
 public class InteractListener implements Listener {
     Plugin plugin;
 
     public InteractListener(Slimedustry plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin)plugin);
-        this.plugin = (Plugin)plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) plugin);
+        this.plugin = (Plugin) plugin;
+    }
+
+    public static boolean isDispenserEmpty(Dispenser d) {
+        byte b;
+        int i;
+        ItemStack[] arrayOfItemStack;
+        for (i = (arrayOfItemStack = d.getInventory().getContents()).length, b = 0; b < i; ) {
+            ItemStack item = arrayOfItemStack[b];
+            if (item != null)
+                return false;
+            b++;
+        }
+
+        return true;
+    }
+
+    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
+        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
+        if (sfitem != null) {
+            Research research = sfitem.getResearch();
+            if (research != null) {
+                PlayerProfile profile = PlayerProfile.find(player).get();
+                if (profile != null) {
+                    if (profile.hasUnlocked(research)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -50,12 +82,11 @@ public class InteractListener implements Listener {
         final Player p = e.getPlayer();
         Block b = e.getClickedBlock();
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (b.getType() == Material.CRAFTING_TABLE && b.getRelative(BlockFace.UP).getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.HEAVY_WEIGHTED_PRESSURE_PLATE && Slimefun.hasUnlocked(p, new CustomItem(Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oUsed for Industrial Crafting"), true)) {
+            if (b.getType() == Material.CRAFTING_TABLE && b.getRelative(BlockFace.UP).getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.HEAVY_WEIGHTED_PRESSURE_PLATE && hasUnlocked(p, new CustomItemStack(Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oUsed for Industrial Crafting"))) {
                 e.setCancelled(true);
-                Dispenser d = (Dispenser)b.getRelative(BlockFace.UP).getState();
+                Dispenser d = (Dispenser) b.getRelative(BlockFace.UP).getState();
                 final Inventory inv = d.getInventory();
                 List<ItemStack[]> recipes = Setup.iwMachine.getRecipes();
-
 
 
                 List<ItemStack[]> convertable = new ArrayList();
@@ -70,35 +101,42 @@ public class InteractListener implements Listener {
                 for (i = 0; i < convertable.size(); i++) {
                     boolean craftable = true;
                     for (int j = 0; j < (inv.getContents()).length; j++) {
-                        if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], ((ItemStack[])convertable.get(i))[j], true)) {
+                        if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], ((ItemStack[]) convertable.get(i))[j], true)) {
                             craftable = false;
                             break;
                         }
                     }
                     if (craftable) {
-                        ItemStack adding = ((ItemStack[])recipes.get(recipes.indexOf(convertable.get(i)) + 1))[0];
+                        ItemStack adding = ((ItemStack[]) recipes.get(recipes.indexOf(convertable.get(i)) + 1))[0];
                         if (hasUnlocked(p, adding)) {
-                            Inventory inv2 = Bukkit.createInventory(null, 9, "test"); int k;
+                            Inventory inv2 = Bukkit.createInventory(null, 9, "test");
+                            int k;
                             for (k = 0; k < (inv.getContents()).length; k++) {
                                 inv2.setItem(k, inv.getContents()[k]);
                             }
                             for (k = 0; k < 9; k++) {
                                 if (inv2.getContents()[k] != null && inv2.getContents()[k].getType() != Material.AIR) {
-                                    if (inv2.getContents()[k].getAmount() > 1) { inv2.setItem(k, (ItemStack)new CustomItem(inv2.getContents()[k], inv2.getContents()[k].getAmount() - 1)); }
-                                    else { inv2.setItem(k, null); }
+                                    if (inv2.getContents()[k].getAmount() > 1) {
+                                        inv2.setItem(k, (ItemStack) new CustomItemStack(inv2.getContents()[k], inv2.getContents()[k].getAmount() - 1));
+                                    } else {
+                                        inv2.setItem(k, null);
+                                    }
 
                                 }
                             }
                             if (InvUtils.fits(inv2, adding)) {
                                 for (k = 0; k < 9; k++) {
                                     if (inv.getContents()[k] != null && inv.getContents()[k].getType() != Material.AIR) {
-                                        if (inv.getContents()[k].getAmount() > 1) { inv.setItem(k, (ItemStack)new CustomItem(inv.getContents()[k], inv.getContents()[k].getAmount() - 1)); }
-                                        else { inv.setItem(k, null); }
+                                        if (inv.getContents()[k].getAmount() > 1) {
+                                            inv.setItem(k, (ItemStack) new CustomItemStack(inv.getContents()[k], inv.getContents()[k].getAmount() - 1));
+                                        } else {
+                                            inv.setItem(k, null);
+                                        }
 
                                     }
                                 }
                                 p.getWorld().playSound(b.getLocation(), Sound.BLOCK_LAVA_POP, 1.0F, 1.0F); // used to be WOOD_CLICK
-                                inv.addItem(new ItemStack[] { adding });
+                                inv.addItem(new ItemStack[]{adding});
                             } else {
                                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
                                 io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
@@ -113,23 +151,23 @@ public class InteractListener implements Listener {
             }
 
 
-            if (b.getType() == Material.PISTON && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && Slimefun.hasUnlocked(p, new CustomItem(Material.PISTON, "&bPlate Bender", "", "&a&oCan bend Ingots into Plates"), true)) {
+            if (b.getType() == Material.PISTON && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && hasUnlocked(p, new CustomItemStack(Material.PISTON, "&bPlate Bender", "", "&a&oCan bend Ingots into Plates"))) {
                 e.setCancelled(true);
-                Dispenser d = (Dispenser)b.getRelative(BlockFace.DOWN).getState();
+                Dispenser d = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
                 final Inventory inv = d.getInventory();
                 List<ItemStack[]> recipes = Setup.pbMachine.getRecipes();
-
 
 
                 List<ItemStack> convertible = new ArrayList();
                 for (int i = 0; i < recipes.size(); i++) {
                     if (i % 2 == 0)
-                        convertible.add(((ItemStack[])recipes.get(i))[0]);
+                        convertible.add(((ItemStack[]) recipes.get(i))[0]);
                 }
                 byte b1;
                 int j;
                 ItemStack[] arrayOfItemStack;
-                for (j = (arrayOfItemStack = inv.getContents()).length, b1 = 0; b1 < j; ) { ItemStack current = arrayOfItemStack[b1];
+                for (j = (arrayOfItemStack = inv.getContents()).length, b1 = 0; b1 < j; ) {
+                    ItemStack current = arrayOfItemStack[b1];
                     for (Iterator<ItemStack> localIterator1 = convertible.iterator(); localIterator1.hasNext(); ) {
                         ItemStack convert = localIterator1.next();
                         if (current != null &&
@@ -141,17 +179,20 @@ public class InteractListener implements Listener {
                             ItemStack adding = newRecipes.get(newRecipes.indexOf(convert) + 1);
                             if (InvUtils.fits(inv, adding)) {
                                 Object removing = current.clone();
-                                ((ItemStack)removing).setAmount(1);
-                                inv.removeItem(new ItemStack[] { (ItemStack)removing });
-                                inv.addItem(new ItemStack[] { adding });
+                                ((ItemStack) removing).setAmount(1);
+                                inv.removeItem(new ItemStack[]{(ItemStack) removing});
+                                inv.addItem(new ItemStack[]{adding});
                                 p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0F, 1.0F);
                             } else {
                                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
                                 io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                            }  return;
-                        }  }
+                            }
+                            return;
+                        }
+                    }
 
-                    b1++; }
+                    b1++;
+                }
 
                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
                 io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
@@ -160,22 +201,25 @@ public class InteractListener implements Listener {
 
             if (b.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN).getType() == Material.BEACON) {
                 if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.EAST).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.WEST).getType() == Material.IRON_BLOCK) {
-                    if (hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator","&a&oGenerates UU-Matter"), true)) {
+                    if (hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"))) {
                         e.setCancelled(true);
-                        Dispenser d = (Dispenser)b.getRelative(BlockFace.DOWN).getState();
+                        Dispenser d = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
                         final Inventory inv = d.getInventory();
                         List<ItemStack[]> recipes = Setup.mfMachine.getRecipes();
-
 
 
                         List<ItemStack> convertable = new ArrayList();
                         for (int i = 0; i < recipes.size(); i++) {
                             if (i % 2 == 0)
-                                convertable.add(((ItemStack[])recipes.get(i))[0]);
-                        }  byte b1; int j;
+                                convertable.add(((ItemStack[]) recipes.get(i))[0]);
+                        }
+                        byte b1;
+                        int j;
                         ItemStack[] arrayOfItemStack;
-                        for (j = (arrayOfItemStack = inv.getContents()).length, b1 = 0; b1 < j; ) { ItemStack current = arrayOfItemStack[b1];
-                            for (Iterator<ItemStack> localIterator1 = convertable.iterator(); localIterator1.hasNext(); ) { ItemStack convert = localIterator1.next();
+                        for (j = (arrayOfItemStack = inv.getContents()).length, b1 = 0; b1 < j; ) {
+                            ItemStack current = arrayOfItemStack[b1];
+                            for (Iterator<ItemStack> localIterator1 = convertable.iterator(); localIterator1.hasNext(); ) {
+                                ItemStack convert = localIterator1.next();
                                 if (current != null &&
                                         SlimefunUtils.isItemSimilar(current, convert, true)) {
                                     List<ItemStack> newRecipes = new ArrayList();
@@ -185,23 +229,26 @@ public class InteractListener implements Listener {
                                     ItemStack adding = newRecipes.get(newRecipes.indexOf(convert) + 1);
                                     if (InvUtils.fits(inv, adding)) {
                                         Object removing = current.clone();
-                                        ((ItemStack)removing).setAmount(1);
-                                        inv.removeItem(new ItemStack[] { (ItemStack)removing });
+                                        ((ItemStack) removing).setAmount(1);
+                                        inv.removeItem(new ItemStack[]{(ItemStack) removing});
                                         adding.setAmount(3);
-                                        inv.addItem(new ItemStack[] { adding });
+                                        inv.addItem(new ItemStack[]{adding});
                                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0F, 1.0F);
                                     } else {
                                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
                                         io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                                    }  return;
-                                }  }
-                            b1++; }
+                                    }
+                                    return;
+                                }
+                            }
+                            b1++;
+                        }
 
                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
                         io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                     }
-                } else if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.SOUTH).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.NORTH).getType() == Material.IRON_BLOCK && Slimefun.hasUnlocked(p, new CustomItem(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"), true)) {
-                    Furnace f = (Furnace)b.getRelative(BlockFace.DOWN).getState();
+                } else if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.SOUTH).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.NORTH).getType() == Material.IRON_BLOCK && hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"))) {
+                    Furnace f = (Furnace) b.getRelative(BlockFace.DOWN).getState();
                     final FurnaceInventory inv = f.getInventory();
                     if (inv.getFuel().getType() == Material.DIAMOND && inv.getFuel().getItemMeta().getDisplayName().equalsIgnoreCase("&c&lPower Crystal")) {
                         if (inv.getSmelting() == null || inv.getSmelting().getItemMeta().getDisplayName().equalsIgnoreCase("&dUU-Matter")) {
@@ -211,12 +258,11 @@ public class InteractListener implements Listener {
                                 inv.setFuel(null);
                             }
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0F, 1.0F);
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable()
-                            {
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
                                 public void run() {
                                     if (inv.getSmelting() == null) {
                                         CustomItemStack customItem = new CustomItemStack(Material.INK_SAC, "&dUU-Matter"); // TODO: RECEIVE 3
-                                        inv.setSmelting((ItemStack)customItem);
+                                        inv.setSmelting((ItemStack) customItem);
                                     } else {
                                         inv.getSmelting().setAmount(inv.getSmelting().getAmount() + 3);
                                     }
@@ -241,7 +287,7 @@ public class InteractListener implements Listener {
                 if (down.getType() == Material.DISPENSER && down.getData() == 1 && hasUnlocked(p, new CustomItemStack(Material.WHITE_STAINED_GLASS, "&6Tank", "", "&a&oStores Liquids"))) {
                     e.setCancelled(true);
                     ItemStack HandItem = p.getInventory().getItemInMainHand();
-                    Dispenser dispenser = (Dispenser)down.getState();
+                    Dispenser dispenser = (Dispenser) down.getState();
                     if (HandItem.getType() == Material.LAVA_BUCKET || HandItem.getType() == Material.WATER_BUCKET) {
                         if (HandItem.getType() == Material.LAVA_BUCKET) {
                             if (b.getData() == 1 || b.getData() == 0) {
@@ -291,12 +337,17 @@ public class InteractListener implements Listener {
                             }
                         }
                     }
-                    int i = 0; byte b1; int j; ItemStack[] arrayOfItemStack;
-                    for (j = (arrayOfItemStack = dispenser.getInventory().getContents()).length, b1 = 0; b1 < j; ) { ItemStack is = arrayOfItemStack[b1];
+                    int i = 0;
+                    byte b1;
+                    int j;
+                    ItemStack[] arrayOfItemStack;
+                    for (j = (arrayOfItemStack = dispenser.getInventory().getContents()).length, b1 = 0; b1 < j; ) {
+                        ItemStack is = arrayOfItemStack[b1];
                         if (is != null && is.getType() != Material.AIR) {
                             i += is.getAmount();
                         }
-                        b1++; }
+                        b1++;
+                    }
 
                     p.sendMessage("&a&lSlimefun &7> &eTank capacity: &6" + String.valueOf(i) + "&e/&6576 &eBuckets");
                 }
@@ -304,31 +355,31 @@ public class InteractListener implements Listener {
         }
 
         e.setCancelled(true);
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && Slimefun.hasUnlocked(p, new CustomItem(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode"), true)) {
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode"))) {
             List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
-            double charge = Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
             if (charge <= 0.0) {
                 return;
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining") && charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining") && charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge") < 0.0) {
                 return;
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive") && charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive") && charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge") < 0.0) {
                 return;
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat") && charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat") && charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge") < 0.0) {
                 return;
             }
-            Snowball snowball = (Snowball)p.launchProjectile(Snowball.class);
-            snowball.setShooter((LivingEntity)p);
+            Snowball snowball = (Snowball) p.launchProjectile(Snowball.class);
+            snowball.setShooter((LivingEntity) p);
             snowball.setVelocity(snowball.getVelocity().multiply(3));
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge")).replace(",", ".")).doubleValue();
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge")).replace(",", ".")).doubleValue();
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge")).replace(",", ".")).doubleValue();
             }
             lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
@@ -338,56 +389,27 @@ public class InteractListener implements Listener {
         }
 
         e.setCancelled(true);
-        if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && Slimefun.hasUnlocked(p, new CustomItem(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode" ), true)) {
+        if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode"))) {
             ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
             List<String> lore = im.getLore();
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
                 lore.set(0, "&6Mode: &1Explosive");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
                 lore.set(0, "&6Mode: &1SuperHeat");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;
             }
-            if (((String)lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
                 lore.set(0, "&6Mode: &1Mining");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;
             }
         }
-    } public static boolean isDispenserEmpty(Dispenser d) {
-        byte b;
-        int i;
-        ItemStack[] arrayOfItemStack;
-        for (i = (arrayOfItemStack = d.getInventory().getContents()).length, b = 0; b < i; ) { ItemStack item = arrayOfItemStack[b];
-            if (item != null)
-                return false;
-            b++; }
-
-        return true;
-    }
-
-    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
-        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
-        if (sfitem != null) {
-            Research research = sfitem.getResearch();
-            if (research != null) {
-                PlayerProfile profile = PlayerProfile.find(player).get();
-                if (profile != null) {
-                    if (profile.hasUnlocked(research)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
     }
 }

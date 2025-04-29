@@ -1,8 +1,9 @@
 package me.diamondman121314.Slimedustry;
 
-import java.io.File;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 
 public class Slimedustry extends JavaPlugin implements SlimefunAddon {
@@ -20,8 +21,8 @@ public class Slimedustry extends JavaPlugin implements SlimefunAddon {
         Setup.setupMisc(this);
         Setup.setupItems(this);
         Setup.setupResearches(this);
-        Setup.changeRecipes();
-        Setup.changeCategories();
+        //Setup.changeRecipes();
+        //Setup.changeCategories();
     }
 
     @Override

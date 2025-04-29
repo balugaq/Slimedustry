@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class RechargeableItem extends SlimefunItem implements Rechargeable {
     private final float capacity;
+
     public RechargeableItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity) {
         super(itemGroup, item, recipeType, recipe);
         this.capacity = capacity;
