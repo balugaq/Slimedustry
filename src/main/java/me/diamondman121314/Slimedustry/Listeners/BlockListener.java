@@ -3,8 +3,12 @@ package me.diamondman121314.Slimedustry.Listeners;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.diamondman121314.Slimedustry.Slimedustry;
-import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,6 +26,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
@@ -48,7 +53,7 @@ public class BlockListener implements Listener {
         }
         if (b.getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getType() == Material.WHITE_STAINED_GLASS && b.getData() == 1) {
             Dispenser d = (Dispenser)b.getState();
-            if (d.getInventory().contains(new CustomItem(Material.TERRACOTTA, "&6Lava")) || d.getInventory().contains(new CustomItem(Material.TERRACOTTA, "&bWater"))) {
+            if (d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&6Lava")) || d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&bWater"))) {
                 d.getInventory().clear();
             }
             b.getRelative(BlockFace.UP).setType(Material.AIR);
@@ -58,7 +63,7 @@ public class BlockListener implements Listener {
                 return;
             }
             if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bRock Cutter")) {
-                if (Slimefun.hasUnlocked(p, p.getInventory().getItemInMainHand(), true)) {
+                if (hasUnlocked(p, p.getInventory().getItemInMainHand())) {
                     List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
                     double charge = Double.valueOf(((String)lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                     if (charge - this.plugin.getConfig().getInt("RockCutterCharge") >= 0.0) {
@@ -87,7 +92,7 @@ public class BlockListener implements Listener {
         }
         if (((String)lore.get(0)).equalsIgnoreCase("&cAre you sure this is a good idea?") && name.equalsIgnoreCase("&4Nuke")) {
             e.setCancelled(true);
-            if (Slimefun.hasUnlocked(p, p.getInventory().getItemInMainHand(), true)) {
+            if (hasUnlocked(p, p.getInventory().getItemInMainHand())) {
                 if (p.getInventory().getItemInMainHand().getAmount() > 1) {
                     p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
                 } else {
@@ -116,7 +121,26 @@ public class BlockListener implements Listener {
         Block b = e.getBlock();
         int RandomNumber = (new Random()).nextInt(this.plugin.getConfig().getInt("StickyResinDropChance") - 1) + 1;
         if (RandomNumber == 3)
-            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(Material.CLAY_BALL, "&bSticky Resin"));
+            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItemStack(Material.CLAY_BALL, "&bSticky Resin"));
+    }
+
+    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
+        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
+        if (sfitem != null) {
+            Research research = sfitem.getResearch();
+            if (research != null) {
+                PlayerProfile profile = PlayerProfile.find(player).get();
+                if (profile != null) {
+                    if (profile.hasUnlocked(research)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

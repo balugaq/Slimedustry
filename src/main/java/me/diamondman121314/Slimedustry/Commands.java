@@ -2,7 +2,7 @@ package me.diamondman121314.Slimedustry;
 
 import java.util.List;
 
-import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

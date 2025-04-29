@@ -4,12 +4,16 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.diamondman121314.Slimedustry.Slimedustry;
 import me.diamondman121314.Slimedustry.Setup;
-import me.mrCookieSlime.Slimefun.cscorelib2.inventory.InvUtils;
-import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -66,14 +70,14 @@ public class InteractListener implements Listener {
                 for (i = 0; i < convertable.size(); i++) {
                     boolean craftable = true;
                     for (int j = 0; j < (inv.getContents()).length; j++) {
-                        if (!SlimefunManager.isItemSimilar(inv.getContents()[j], ((ItemStack[])convertable.get(i))[j], true)) {
+                        if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], ((ItemStack[])convertable.get(i))[j], true)) {
                             craftable = false;
                             break;
                         }
                     }
                     if (craftable) {
                         ItemStack adding = ((ItemStack[])recipes.get(recipes.indexOf(convertable.get(i)) + 1))[0];
-                        if (Slimefun.hasUnlocked(p, adding, true)) {
+                        if (hasUnlocked(p, adding)) {
                             Inventory inv2 = Bukkit.createInventory(null, 9, "test"); int k;
                             for (k = 0; k < (inv.getContents()).length; k++) {
                                 inv2.setItem(k, inv.getContents()[k]);
@@ -97,14 +101,14 @@ public class InteractListener implements Listener {
                                 inv.addItem(new ItemStack[] { adding });
                             } else {
                                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
-                                SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                                io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                             }
                         }
                         return;
                     }
                 }
                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.pattern-not-found");
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+                io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
 
             }
 
@@ -129,7 +133,7 @@ public class InteractListener implements Listener {
                     for (Iterator<ItemStack> localIterator1 = convertible.iterator(); localIterator1.hasNext(); ) {
                         ItemStack convert = localIterator1.next();
                         if (current != null &&
-                                SlimefunManager.isItemSimilar(current, convert, true)) {
+                                SlimefunUtils.isItemSimilar(current, convert, true)) {
                             List<ItemStack> newRecipes = new ArrayList();
                             for (ItemStack[] recipe : recipes) {
                                 newRecipes.add(recipe[0]);
@@ -143,20 +147,20 @@ public class InteractListener implements Listener {
                                 p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0F, 1.0F);
                             } else {
                                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
-                                SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                                io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                             }  return;
                         }  }
 
                     b1++; }
 
                 //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+                io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
             }
 
 
             if (b.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN).getType() == Material.BEACON) {
                 if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.EAST).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.WEST).getType() == Material.IRON_BLOCK) {
-                    if (Slimefun.hasUnlocked(p, new CustomItem(Material.BEACON, "&9&lMass Fabricator","&a&oGenerates UU-Matter"), true)) {
+                    if (hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator","&a&oGenerates UU-Matter"), true)) {
                         e.setCancelled(true);
                         Dispenser d = (Dispenser)b.getRelative(BlockFace.DOWN).getState();
                         final Inventory inv = d.getInventory();
@@ -173,7 +177,7 @@ public class InteractListener implements Listener {
                         for (j = (arrayOfItemStack = inv.getContents()).length, b1 = 0; b1 < j; ) { ItemStack current = arrayOfItemStack[b1];
                             for (Iterator<ItemStack> localIterator1 = convertable.iterator(); localIterator1.hasNext(); ) { ItemStack convert = localIterator1.next();
                                 if (current != null &&
-                                        SlimefunManager.isItemSimilar(current, convert, true)) {
+                                        SlimefunUtils.isItemSimilar(current, convert, true)) {
                                     List<ItemStack> newRecipes = new ArrayList();
                                     for (ItemStack[] recipe : recipes) {
                                         newRecipes.add(recipe[0]);
@@ -188,13 +192,13 @@ public class InteractListener implements Listener {
                                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0F, 1.0F);
                                     } else {
                                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
-                                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                                        io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                                     }  return;
                                 }  }
                             b1++; }
 
                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+                        io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                     }
                 } else if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.SOUTH).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.NORTH).getType() == Material.IRON_BLOCK && Slimefun.hasUnlocked(p, new CustomItem(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"), true)) {
                     Furnace f = (Furnace)b.getRelative(BlockFace.DOWN).getState();
@@ -211,7 +215,7 @@ public class InteractListener implements Listener {
                             {
                                 public void run() {
                                     if (inv.getSmelting() == null) {
-                                        CustomItem customItem = new CustomItem(Material.INK_SAC, "&dUU-Matter"); // TODO: RECEIVE 3
+                                        CustomItemStack customItem = new CustomItemStack(Material.INK_SAC, "&dUU-Matter"); // TODO: RECEIVE 3
                                         inv.setSmelting((ItemStack)customItem);
                                     } else {
                                         inv.getSmelting().setAmount(inv.getSmelting().getAmount() + 3);
@@ -222,11 +226,11 @@ public class InteractListener implements Listener {
                             });
                         } else {
                             //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.full-inventory");
-                            SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                            io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
                     } else {
                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+                        io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                     }
                 }
             }
@@ -234,14 +238,14 @@ public class InteractListener implements Listener {
 
             if (b.getType() == Material.WHITE_STAINED_GLASS) {
                 Block down = b.getRelative(BlockFace.DOWN);
-                if (down.getType() == Material.DISPENSER && down.getData() == 1 && Slimefun.hasUnlocked(p, new CustomItem(Material.WHITE_STAINED_GLASS, "&6Tank", "", "&a&oStores Liquids"), true)) {
+                if (down.getType() == Material.DISPENSER && down.getData() == 1 && hasUnlocked(p, new CustomItemStack(Material.WHITE_STAINED_GLASS, "&6Tank", "", "&a&oStores Liquids"))) {
                     e.setCancelled(true);
                     ItemStack HandItem = p.getInventory().getItemInMainHand();
                     Dispenser dispenser = (Dispenser)down.getState();
                     if (HandItem.getType() == Material.LAVA_BUCKET || HandItem.getType() == Material.WATER_BUCKET) {
                         if (HandItem.getType() == Material.LAVA_BUCKET) {
                             if (b.getData() == 1 || b.getData() == 0) {
-                                dispenser.getInventory().addItem(new CustomItem(Material.TERRACOTTA, "&6Lava"));
+                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&6Lava"));
                                 dispenser.update();
                                 //b.setData((byte)1);
                                 //b.setMetadata().setData((byte)0);
@@ -253,14 +257,14 @@ public class InteractListener implements Listener {
                         }
                         if (HandItem.getType() == Material.WATER_BUCKET) {
                             if (b.getData() == 3 || b.getData() == 0) {
-                                dispenser.getInventory().addItem(new CustomItem(Material.TERRACOTTA, "&bWater"));
+                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&bWater"));
                                 dispenser.update();
                                 //b.setData((byte)3);
                                 //b.setMetadata().setData((byte)3);
                                 b.getLocation().getWorld().playSound(b.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1.0F, 0.0F);
                             } else {
                                 p.sendMessage("&a&lSlimefun &7> &cThis Tank already has Water in it, don't mix it!");
-                                SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+                                io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                                 return;
                             }
                         }
@@ -270,7 +274,7 @@ public class InteractListener implements Listener {
                     if (HandItem.getType() == Material.BUCKET) {
                         if (b.getData() == 1 && down.getData() == 1) {
                             p.getInventory().getItemInMainHand().setType(Material.LAVA_BUCKET);
-                            dispenser.getInventory().removeItem(new CustomItem(Material.TERRACOTTA, "&6Lava"));
+                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&6Lava"));
                             dispenser.update();
                             if (isDispenserEmpty(dispenser)) {
                                 //b.setData((byte)0);
@@ -279,7 +283,7 @@ public class InteractListener implements Listener {
                         }
                         if (b.getData() == 3 && down.getData() == 1) {
                             p.getInventory().getItemInMainHand().setType(Material.WATER_BUCKET);
-                            dispenser.getInventory().removeItem(new CustomItem(Material.TERRACOTTA, "&bWater"));
+                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&bWater"));
                             dispenser.update();
                             if (isDispenserEmpty(dispenser)) {
                                 //b.setData((byte)0);
@@ -364,6 +368,25 @@ public class InteractListener implements Listener {
             if (item != null)
                 return false;
             b++; }
+
+        return true;
+    }
+
+    public static boolean hasUnlocked(Player player, ItemStack itemStack) {
+        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
+        if (sfitem != null) {
+            Research research = sfitem.getResearch();
+            if (research != null) {
+                PlayerProfile profile = PlayerProfile.find(player).get();
+                if (profile != null) {
+                    if (profile.hasUnlocked(research)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }
