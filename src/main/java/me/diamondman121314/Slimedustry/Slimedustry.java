@@ -32,6 +32,6 @@ public class Slimedustry extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/Diamondman121314/Slimedustry/issues/";
+        return "https://github.com/balugaq/Slimedustry/issues/";
     }
 }
