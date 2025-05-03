@@ -77,7 +77,7 @@ public class Setup {
 
     public static void setupItems(Slimedustry main) {
         ROCK_CUTTER.addEnchantment(Enchantment.SILK_TOUCH, 1);
-        COMPOSITE_VEST.addUnsafeEnchantment(Enchantment.DURABILITY, 5);
+        COMPOSITE_VEST.addUnsafeEnchantment(Enchantment.UNBREAKING, 5);
 
         iwMachine = new MultiBlockMachine(SLIMEDUSTRY, INDUSTRIAL_WORKBENCH, new ItemStack[]{null, new ItemStack(Material.HEAVY_WEIGHTED_PRESSURE_PLATE), null, null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.CRAFTING_TABLE), null}, BlockFace.SELF) {
             @Override

@@ -120,7 +120,7 @@ public class BlockListener implements Listener {
                 Location l = e.getBlock().getLocation();
                 l.setX(e.getBlock().getLocation().getX() + 0.5D);
                 l.setZ(e.getBlock().getLocation().getZ() + 0.5D);
-                final TNTPrimed tnt = (TNTPrimed) p.getWorld().spawnEntity(l, EntityType.PRIMED_TNT);
+                final TNTPrimed tnt = (TNTPrimed) p.getWorld().spawnEntity(l, EntityType.TNT);
                 tnt.setFuseTicks(this.plugin.getConfig().getInt("Nuke.Delay") * 20 + 20);
                 Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
                     public void run() {
