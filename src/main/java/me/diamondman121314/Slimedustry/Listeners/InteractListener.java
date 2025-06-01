@@ -82,7 +82,7 @@ public class InteractListener implements Listener {
         final Player p = e.getPlayer();
         Block b = e.getClickedBlock();
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (b.getType() == Material.CRAFTING_TABLE && b.getRelative(BlockFace.UP).getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.HEAVY_WEIGHTED_PRESSURE_PLATE && hasUnlocked(p, new CustomItemStack(Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oUsed for Industrial Crafting"))) {
+            if (b.getType() == Material.CRAFTING_TABLE && b.getRelative(BlockFace.UP).getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.HEAVY_WEIGHTED_PRESSURE_PLATE && hasUnlocked(p, new CustomItemStack(Material.CRAFTING_TABLE, "&b工厂合成台", "", "&a&o用于工厂合成"))) {
                 e.setCancelled(true);
                 Dispenser d = (Dispenser) b.getRelative(BlockFace.UP).getState();
                 final Inventory inv = d.getInventory();
@@ -151,7 +151,7 @@ public class InteractListener implements Listener {
             }
 
 
-            if (b.getType() == Material.PISTON && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && hasUnlocked(p, new CustomItemStack(Material.PISTON, "&bPlate Bender", "", "&a&oCan bend Ingots into Plates"))) {
+            if (b.getType() == Material.PISTON && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && hasUnlocked(p, new CustomItemStack(Material.PISTON, "&b压板机", "", "&a&o可以将锭压成板"))) {
                 e.setCancelled(true);
                 Dispenser d = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
                 final Inventory inv = d.getInventory();
@@ -201,7 +201,7 @@ public class InteractListener implements Listener {
 
             if (b.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE && b.getRelative(BlockFace.DOWN).getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN).getType() == Material.BEACON) {
                 if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.EAST).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.WEST).getType() == Material.IRON_BLOCK) {
-                    if (hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"))) {
+                    if (hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&l零件工厂", "&a&o可以制造工厂零件"))) {
                         e.setCancelled(true);
                         Dispenser d = (Dispenser) b.getRelative(BlockFace.DOWN).getState();
                         final Inventory inv = d.getInventory();
@@ -247,11 +247,11 @@ public class InteractListener implements Listener {
                         //Messages.local.sendTranslation(p, Slimefun.getPrefix(true), "machines.unknown-material");
                         io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                     }
-                } else if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.SOUTH).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.NORTH).getType() == Material.IRON_BLOCK && hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&lMass Fabricator", "&a&oGenerates UU-Matter"))) {
+                } else if (b.getRelative(BlockFace.DOWN).getRelative(BlockFace.SOUTH).getType() == Material.IRON_BLOCK && b.getRelative(BlockFace.DOWN).getRelative(BlockFace.NORTH).getType() == Material.IRON_BLOCK && hasUnlocked(p, new CustomItemStack(Material.BEACON, "&9&l零件工厂", "&a&o可以制造工厂零件"))) {
                     Furnace f = (Furnace) b.getRelative(BlockFace.DOWN).getState();
                     final FurnaceInventory inv = f.getInventory();
-                    if (inv.getFuel().getType() == Material.DIAMOND && inv.getFuel().getItemMeta().getDisplayName().equalsIgnoreCase("&c&lPower Crystal")) {
-                        if (inv.getSmelting() == null || inv.getSmelting().getItemMeta().getDisplayName().equalsIgnoreCase("&dUU-Matter")) {
+                    if (inv.getFuel().getType() == Material.DIAMOND && inv.getFuel().getItemMeta().getDisplayName().equalsIgnoreCase("&c&l能量水晶")) {
+                        if (inv.getSmelting() == null || inv.getSmelting().getItemMeta().getDisplayName().equalsIgnoreCase("&d工厂零件")) {
                             if (inv.getFuel().getAmount() > 1) {
                                 inv.getFuel().setAmount(inv.getFuel().getAmount() - 1);
                             } else {
@@ -261,7 +261,7 @@ public class InteractListener implements Listener {
                             Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
                                 public void run() {
                                     if (inv.getSmelting() == null) {
-                                        CustomItemStack customItem = new CustomItemStack(Material.INK_SAC, "&dUU-Matter"); // TODO: RECEIVE 3
+                                        CustomItemStack customItem = new CustomItemStack(Material.INK_SAC, "&d工厂零件"); // TODO: RECEIVE 3
                                         inv.setSmelting((ItemStack) customItem);
                                     } else {
                                         inv.getSmelting().setAmount(inv.getSmelting().getAmount() + 3);
@@ -284,32 +284,32 @@ public class InteractListener implements Listener {
 
             if (b.getType() == Material.WHITE_STAINED_GLASS) {
                 Block down = b.getRelative(BlockFace.DOWN);
-                if (down.getType() == Material.DISPENSER && down.getData() == 1 && hasUnlocked(p, new CustomItemStack(Material.WHITE_STAINED_GLASS, "&6Tank", "", "&a&oStores Liquids"))) {
+                if (down.getType() == Material.DISPENSER && down.getData() == 1 && hasUnlocked(p, new CustomItemStack(Material.WHITE_STAINED_GLASS, "&6储罐", "", "&a&o用于储存液体&7(水或岩浆)"))) {
                     e.setCancelled(true);
                     ItemStack HandItem = p.getInventory().getItemInMainHand();
                     Dispenser dispenser = (Dispenser) down.getState();
                     if (HandItem.getType() == Material.LAVA_BUCKET || HandItem.getType() == Material.WATER_BUCKET) {
                         if (HandItem.getType() == Material.LAVA_BUCKET) {
                             if (b.getData() == 1 || b.getData() == 0) {
-                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&6Lava"));
+                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&6岩浆"));
                                 dispenser.update();
                                 //b.setData((byte)1);
                                 //b.setMetadata().setData((byte)0);
                                 b.getLocation().getWorld().playSound(b.getLocation(), Sound.BLOCK_LAVA_AMBIENT, 1.0F, 0.0F);
                             } else {
-                                p.sendMessage("&a&lSlimefun &7> &cThis Tank already has Lava in it, don't mix it!");
+                                p.sendMessage("&a&l粘液科技 &7> &c这个储罐里面有岩浆，不能混入水!");
                                 return;
                             }
                         }
                         if (HandItem.getType() == Material.WATER_BUCKET) {
                             if (b.getData() == 3 || b.getData() == 0) {
-                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&bWater"));
+                                dispenser.getInventory().addItem(new CustomItemStack(Material.TERRACOTTA, "&b水"));
                                 dispenser.update();
                                 //b.setData((byte)3);
                                 //b.setMetadata().setData((byte)3);
                                 b.getLocation().getWorld().playSound(b.getLocation(), Sound.BLOCK_WATER_AMBIENT, 1.0F, 0.0F);
                             } else {
-                                p.sendMessage("&a&lSlimefun &7> &cThis Tank already has Water in it, don't mix it!");
+                                p.sendMessage("&a&l粘液科技 &7> &c这个储罐里面有水，不能混入岩浆!");
                                 io.github.thebusybiscuit.slimefun4.implementation.Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
                                 return;
                             }
@@ -320,7 +320,7 @@ public class InteractListener implements Listener {
                     if (HandItem.getType() == Material.BUCKET) {
                         if (b.getData() == 1 && down.getData() == 1) {
                             p.getInventory().getItemInMainHand().setType(Material.LAVA_BUCKET);
-                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&6Lava"));
+                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&6岩浆"));
                             dispenser.update();
                             if (isDispenserEmpty(dispenser)) {
                                 //b.setData((byte)0);
@@ -329,7 +329,7 @@ public class InteractListener implements Listener {
                         }
                         if (b.getData() == 3 && down.getData() == 1) {
                             p.getInventory().getItemInMainHand().setType(Material.WATER_BUCKET);
-                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&bWater"));
+                            dispenser.getInventory().removeItem(new CustomItemStack(Material.TERRACOTTA, "&b水"));
                             dispenser.update();
                             if (isDispenserEmpty(dispenser)) {
                                 //b.setData((byte)0);
@@ -349,63 +349,63 @@ public class InteractListener implements Listener {
                         b1++;
                     }
 
-                    p.sendMessage("&a&lSlimefun &7> &eTank capacity: &6" + String.valueOf(i) + "&e/&6576 &eBuckets");
+                    p.sendMessage("&a&l粘液科技 &7> &e储罐容量: &6" + String.valueOf(i) + "&e/&6576 &e桶");
                 }
             }
         }
 
         e.setCancelled(true);
-        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode"))) {
+        if ((e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&b激光采矿器") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&b激光采矿器", "&6模式: &1挖矿", "&7电量: &b0.0 J", "&7电容: &b40.0 J", "&a&oRight click to shoot, left click to change mode"))) {
             List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
-            double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            double charge = Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
             if (charge <= 0.0) {
                 return;
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining") && charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1挖矿") && charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge") < 0.0) {
                 return;
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive") && charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1爆炸") && charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge") < 0.0) {
                 return;
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat") && charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge") < 0.0) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1高温") && charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge") < 0.0) {
                 return;
             }
             Snowball snowball = (Snowball) p.launchProjectile(Snowball.class);
             snowball.setShooter((LivingEntity) p);
             snowball.setVelocity(snowball.getVelocity().multiply(3));
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1挖矿")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.MiningCharge")).replace(",", ".")).doubleValue();
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1爆炸")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.ExplosiveCharge")).replace(",", ".")).doubleValue();
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1高温")) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("MiningLaser.SuperHeatCharge")).replace(",", ".")).doubleValue();
             }
-            lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
+            lore.set(1, "&7电量: &b" + String.valueOf(charge) + " J");
             ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
             im.setLore(lore);
             p.getInventory().getItemInMainHand().setItemMeta(im);
         }
 
         e.setCancelled(true);
-        if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode"))) {
+        if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&b激光采矿器") && hasUnlocked(p, new CustomItemStack(Material.DIAMOND_HORSE_ARMOR, "&b激光采矿器", "&6模式: &1挖矿", "&7电量: &b0.0 J", "&7电容: &b40.0 J", "&a&o右键发射使用, 左键切换模式"))) {
             ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
             List<String> lore = im.getLore();
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
-                lore.set(0, "&6Mode: &1Explosive");
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1挖矿")) {
+                lore.set(0, "&6模式: &1爆炸");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
-                lore.set(0, "&6Mode: &1SuperHeat");
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1爆炸")) {
+                lore.set(0, "&6模式: &1高温");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;
             }
-            if (((String) lore.get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat")) {
-                lore.set(0, "&6Mode: &1Mining");
+            if (((String) lore.get(0)).equalsIgnoreCase("&6模式: &1高温")) {
+                lore.set(0, "&6模式: &1挖矿");
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
                 return;

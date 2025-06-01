@@ -71,7 +71,7 @@ public class BlockListener implements Listener {
         }
         if (b.getType() == Material.DISPENSER && b.getRelative(BlockFace.UP).getType() == Material.WHITE_STAINED_GLASS && b.getData() == 1) {
             Dispenser d = (Dispenser) b.getState();
-            if (d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&6Lava")) || d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&bWater"))) {
+            if (d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&6岩浆")) || d.getInventory().contains(new CustomItemStack(Material.TERRACOTTA, "&b水"))) {
                 d.getInventory().clear();
             }
             b.getRelative(BlockFace.UP).setType(Material.AIR);
@@ -80,13 +80,13 @@ public class BlockListener implements Listener {
             if (!p.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
                 return;
             }
-            if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bRock Cutter")) {
+            if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&b岩石切割机")) {
                 if (hasUnlocked(p, p.getInventory().getItemInMainHand())) {
                     List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
-                    double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                    double charge = Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                     if (charge - this.plugin.getConfig().getInt("RockCutterCharge") >= 0.0) {
                         charge = Double.valueOf((new DecimalFormat("##.##")).format(charge - this.plugin.getConfig().getInt("RockCutterCharge")).replace(",", ".")).doubleValue();
-                        lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
+                        lore.set(1, "&7电量: &b" + String.valueOf(charge) + " J");
                         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
                         im.setLore(lore);
                         p.getInventory().getItemInMainHand().setItemMeta(im);
@@ -109,7 +109,7 @@ public class BlockListener implements Listener {
         if (lore == null) {
             return;
         }
-        if (((String) lore.get(0)).equalsIgnoreCase("&cAre you sure this is a good idea?") && name.equalsIgnoreCase("&4Nuke")) {
+        if (((String) lore.get(0)).equalsIgnoreCase("&c你确定使用它吗?") && name.equalsIgnoreCase("&4小型核弹")) {
             e.setCancelled(true);
             if (hasUnlocked(p, p.getInventory().getItemInMainHand())) {
                 if (p.getInventory().getItemInMainHand().getAmount() > 1) {
@@ -140,14 +140,14 @@ public class BlockListener implements Listener {
         Block b = e.getBlock();
         int RandomNumber = (new Random()).nextInt(this.plugin.getConfig().getInt("StickyResinDropChance") - 1) + 1;
         if (RandomNumber == 3)
-            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItemStack(Material.CLAY_BALL, "&bSticky Resin"));
+            b.getWorld().dropItemNaturally(b.getLocation(), new CustomItemStack(Material.CLAY_BALL, "&b合成树脂"));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDispenserShoot(BlockDispenseEvent e) {
         if (e.getBlock().getType() == Material.DISPENSER) {
             Dispenser d = (Dispenser) e.getBlock().getState();
-            if (e.getItem().getType() == Material.TERRACOTTA && e.getItem().hasItemMeta() && (e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("&bWater") || e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("&6Lava")))
+            if (e.getItem().getType() == Material.TERRACOTTA && e.getItem().hasItemMeta() && (e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("&b水") || e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("&6岩浆")))
                 e.setCancelled(true);
         }
     }

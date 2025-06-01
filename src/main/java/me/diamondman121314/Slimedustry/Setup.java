@@ -18,30 +18,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Setup {
-    public static final SlimefunItemStack INDUSTRIAL_WORKBENCH = new SlimefunItemStack("INDUSTRIAL_WORKBENCH", Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oUsed for Industrial Crafting");
-    public static final SlimefunItemStack PLATE_BENDER = new SlimefunItemStack("PLATE_BENDER", Material.PISTON, "&bPlate Bender", "", "&a&oCan bend Ingots into Plates");
-    public static final SlimefunItemStack MASS_FABRICATOR = new SlimefunItemStack("MASS_FABRICATOR", Material.BEACON, "&9&lMass Fabricator", "", "&a&oGenerates UU-Matter");
-    public static final SlimefunItemStack TANK = new SlimefunItemStack("TANK", Material.WHITE_STAINED_GLASS, "&6Tank", "", "&a&oStores Liquids");
-    public static final SlimefunItemStack SD_REINFORCED_GLASS = new SlimefunItemStack("SD_REINFORCED_GLASS", Material.GLASS, "&bReinforced Glass");
-    public static final SlimefunItemStack NUKE = new SlimefunItemStack("NUKE", Material.TNT, "&4Nuke", "&cAre you sure this is a good idea?", "&3Automatically detonates on placement");
-    public static final SlimefunItemStack SD_RUBBER = new SlimefunItemStack("SD_RUBBER", Material.LEATHER, "&bRubber");
-    public static final SlimefunItemStack SD_STICKY_RESIN = new SlimefunItemStack("SD_STICKY_RESIN", Material.CLAY_BALL, "&bSticky Resin");
-    public static final SlimefunItemStack REINFORCED_ALLOY_PLATE = new SlimefunItemStack("REINFORCED_ALLOY_PLATE", Material.PAPER, "&bReinforced Alloy Plate");
-    public static final SlimefunItemStack TITANIUM_INGOT = new SlimefunItemStack("TITANIUM_INGOT", Material.IRON_INGOT, "&bTitanium Ingot");
-    public static final SlimefunItemStack TITANIUM_DUST = new SlimefunItemStack("TITANIUM_DUST", Material.SUGAR, "&6Titanium Dust");
-    public static final SlimefunItemStack IMPURE_TITANIUM_DUST = new SlimefunItemStack("IMPURE_TITANIUM", Material.GUNPOWDER, "&bImpure Titanium Dust");
-    public static final SlimefunItemStack IRIDIUM_ORE = new SlimefunItemStack("IRIDIUM_ORE", Material.GHAST_TEAR, "&f&lIridium Ore");
-    public static final SlimefunItemStack SD_IRIDIUM_PLATE = new SlimefunItemStack("SD_IRIDIUM_PLATE", Material.PAPER, "&f&lIridium Plate");
-    public static final SlimefunItemStack SD_UU_MATTER = new SlimefunItemStack("SD_UU_MATTER", Material.INK_SAC, "&dUU-Matter");
-    public static final SlimefunItemStack SD_RUBBER_BOOTS = new SlimefunItemStack("SD_RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&6Rubber Boots", "&a&oPrevents Fall Damage");
-    public static final SlimefunItemStack STATIC_BOOTS = new SlimefunItemStack("STATIC_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&6Static Boots", "", "&a&oCharges the item in your hand while you walk");
-    public static final SlimefunItemStack NANO_HELMET = new SlimefunItemStack("NANO_HELMET", Material.LEATHER_HELMET, Color.BLACK, "&8&lNanoSuit Helmet", "&a&oNightVision included!", "&7Charge: &b0.0 J", "&7Capacity: &b1000.0 J");
-    public static final SlimefunItemStack NANO_CHESTPLATE = new SlimefunItemStack("NANO_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.BLACK, "&8&lNanoSuit Chestplate", "", "&7Charge: &b0.0 J", "&7Capacity: &b1000.0 J");
-    public static final SlimefunItemStack NANO_LEGGINGS = new SlimefunItemStack("NANO_LEGGINGS", Material.LEATHER_LEGGINGS, Color.BLACK, "&8&lNanoSuit Leggings", "", "&7Charge: &b0.0 J", "&7Capacity: &b1000.0 J");
-    public static final SlimefunItemStack NANO_BOOTS = new SlimefunItemStack("NANO_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&8&lNanoSuit Boots", "", "&7Charge: &b0.0 J", "&7Capacity: &b1000.0 J");
-    public static final SlimefunItemStack MINING_LASER = new SlimefunItemStack("MINING_LASER", Material.DIAMOND_HORSE_ARMOR, "&bMining Laser", "&6Mode: &1Mining", "&7Charge: &b0.0 J", "&7Capacity: &b40.0 J", "&a&oRight click to shoot, left click to change mode");
-    public static final SlimefunItemStack ROCK_CUTTER = new SlimefunItemStack("ROCK_CUTTER", Material.DIAMOND_PICKAXE, "&bRock Cutter", "", "&7Charge: &b0.0 J", "&7Capacity: &b100.0 J");
-    public static final SlimefunItemStack COMPOSITE_VEST = new SlimefunItemStack("COMPOSITE_VEST", Material.IRON_CHESTPLATE, "&7Composite Vest");
+    public static final SlimefunItemStack INDUSTRIAL_WORKBENCH = new SlimefunItemStack("INDUSTRIAL_WORKBENCH", Material.CRAFTING_TABLE, "&b工厂合成台", "", "&a&o用于工厂合成");
+    public static final SlimefunItemStack PLATE_BENDER = new SlimefunItemStack("PLATE_BENDER", Material.PISTON, "&b压板机", "", "&a&o可以将锭压成板");
+    public static final SlimefunItemStack MASS_FABRICATOR = new SlimefunItemStack("MASS_FABRICATOR", Material.BEACON, "&9&l零件工厂", "", "&a&o可以制造工厂零件");
+    public static final SlimefunItemStack TANK = new SlimefunItemStack("TANK", Material.WHITE_STAINED_GLASS, "&6储罐", "", "&a&o用于储存液体&7(水或岩浆)");
+    public static final SlimefunItemStack SD_REINFORCED_GLASS = new SlimefunItemStack("SD_REINFORCED_GLASS", Material.GLASS, "&b特种玻璃");
+    public static final SlimefunItemStack NUKE = new SlimefunItemStack("NUKE", Material.TNT, "&4小型核弹", "&c你确定使用它吗?", "&3放置后自动引爆");
+    public static final SlimefunItemStack SD_RUBBER = new SlimefunItemStack("SD_RUBBER", Material.LEATHER, "&b合成橡胶");
+    public static final SlimefunItemStack SD_STICKY_RESIN = new SlimefunItemStack("SD_STICKY_RESIN", Material.CLAY_BALL, "&b合成树脂");
+    public static final SlimefunItemStack REINFORCED_ALLOY_PLATE = new SlimefunItemStack("REINFORCED_ALLOY_PLATE", Material.PAPER, "&b强化合金板");
+    public static final SlimefunItemStack TITANIUM_INGOT = new SlimefunItemStack("TITANIUM_INGOT", Material.IRON_INGOT, "&b钛锭");
+    public static final SlimefunItemStack TITANIUM_DUST = new SlimefunItemStack("TITANIUM_DUST", Material.SUGAR, "&6钛粉");
+    public static final SlimefunItemStack IMPURE_TITANIUM_DUST = new SlimefunItemStack("IMPURE_TITANIUM", Material.GUNPOWDER, "&b不纯的钛粉");
+    public static final SlimefunItemStack IRIDIUM_ORE = new SlimefunItemStack("IRIDIUM_ORE", Material.GHAST_TEAR, "&f&l铱矿");
+    public static final SlimefunItemStack SD_IRIDIUM_PLATE = new SlimefunItemStack("SD_IRIDIUM_PLATE", Material.PAPER, "&f&l粗制铱板");
+    public static final SlimefunItemStack SD_UU_MATTER = new SlimefunItemStack("SD_UU_MATTER", Material.INK_SAC, "&d工厂零件");
+    public static final SlimefunItemStack SD_RUBBER_BOOTS = new SlimefunItemStack("SD_RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&6特制橡胶靴子", "&a&o防止摔落伤害");
+    public static final SlimefunItemStack STATIC_BOOTS = new SlimefunItemStack("STATIC_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&6静电靴", "", "&a&o当你行走的时候为你手上的物品充电");
+    public static final SlimefunItemStack NANO_HELMET = new SlimefunItemStack("NANO_HELMET", Material.LEATHER_HELMET, Color.BLACK, "&8&l工厂头盔", "&a&o戴上它的时候拥有夜视效果!", "&7电量: &b0.0 J", "&7电容: &b1000.0 J");
+    public static final SlimefunItemStack NANO_CHESTPLATE = new SlimefunItemStack("NANO_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.BLACK, "&8&l工厂胸甲", "", "&7电量: &b0.0 J", "&7电容: &b1000.0 J");
+    public static final SlimefunItemStack NANO_LEGGINGS = new SlimefunItemStack("NANO_LEGGINGS", Material.LEATHER_LEGGINGS, Color.BLACK, "&8&l工厂护腿", "", "&7电量: &b0.0 J", "&7电容: &b1000.0 J");
+    public static final SlimefunItemStack NANO_BOOTS = new SlimefunItemStack("NANO_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&8&l工厂靴子", "", "&7电量: &b0.0 J", "&7电容: &b1000.0 J");
+    public static final SlimefunItemStack MINING_LASER = new SlimefunItemStack("MINING_LASER", Material.DIAMOND_HORSE_ARMOR, "&b激光采矿器", "&6模式: &1挖矿", "&7电量: &b0.0 J", "&7电容: &b40.0 J", "&a&o右键发射使用, 左键切换模式");
+    public static final SlimefunItemStack ROCK_CUTTER = new SlimefunItemStack("ROCK_CUTTER", Material.DIAMOND_PICKAXE, "&b岩石切割机", "", "&7电量: &b0.0 J", "&7电容: &b100.0 J");
+    public static final SlimefunItemStack COMPOSITE_VEST = new SlimefunItemStack("COMPOSITE_VEST", Material.IRON_CHESTPLATE, "&7复合材背心");
     public static MultiBlockMachine iwMachine;
     public static MultiBlockMachine pbMachine;
     public static MultiBlockMachine mfMachine;
@@ -59,20 +59,20 @@ public class Setup {
     static ItemGroup ARMOR;
 
     public static void setupMisc(Slimedustry main) {
-        SLIMEDUSTRY = new ItemGroup(new NamespacedKey(main, "slimedustry"), new CustomItemStack(Material.BEACON, "&7Slimedustry"));
-        DUSTS = new ItemGroup(new NamespacedKey(main, "dusts"), new CustomItemStack(Material.SUGAR, "&7Dusts"));
-        PLATES = new ItemGroup(new NamespacedKey(main, "plates"), new CustomItemStack(Material.MAP, "&7Plates"));
-        INGOTS = new ItemGroup(new NamespacedKey(main, "ingots"), new CustomItemStack(Material.IRON_INGOT, "&7Ingots"));
-        MISC = new ItemGroup(new NamespacedKey(main, "misc"), new CustomItemStack(Material.GLASS_BOTTLE, "&7Misc"));
-        RESOURCES = new ItemGroup(new NamespacedKey(main, "resource"), new CustomItemStack(Material.GRASS_BLOCK, "&7Resource"));
-        TECH = new ItemGroup(new NamespacedKey(main, "tech"), new CustomItemStack(Material.REDSTONE, "&7Tech"));
-        ARMOR = new ItemGroup(new NamespacedKey(main, "armor"), new CustomItemStack(Material.IRON_CHESTPLATE, "&7Armor"));
+        SLIMEDUSTRY = new ItemGroup(new NamespacedKey(main, "slimedustry"), new CustomItemStack(Material.BEACON, "&7粘液工厂"));
+        DUSTS = new ItemGroup(new NamespacedKey(main, "dusts"), new CustomItemStack(Material.SUGAR, "&7粉"));
+        PLATES = new ItemGroup(new NamespacedKey(main, "plates"), new CustomItemStack(Material.MAP, "&7板"));
+        INGOTS = new ItemGroup(new NamespacedKey(main, "ingots"), new CustomItemStack(Material.IRON_INGOT, "&7锭"));
+        MISC = new ItemGroup(new NamespacedKey(main, "misc"), new CustomItemStack(Material.GLASS_BOTTLE, "&7杂项"));
+        RESOURCES = new ItemGroup(new NamespacedKey(main, "resource"), new CustomItemStack(Material.GRASS_BLOCK, "&7资源"));
+        TECH = new ItemGroup(new NamespacedKey(main, "tech"), new CustomItemStack(Material.REDSTONE, "&7科技物品"));
+        ARMOR = new ItemGroup(new NamespacedKey(main, "armor"), new CustomItemStack(Material.IRON_CHESTPLATE, "&7装备"));
 
 
-        iwType = new RecipeType(new NamespacedKey(main, "industrial_crafting_table_material"), new CustomItemStack(Material.CRAFTING_TABLE, "&bIndustrial Crafting Table", "", "&a&oCraft it in an Industrial Crafting Table"));
-        pbType = new RecipeType(new NamespacedKey(main, "plate_bender_material"), new CustomItemStack(Material.PISTON, "&bPlate Bender", "", "&a&oBend it in a Plate Bender"));
-        mfType = new RecipeType(new NamespacedKey(main, "mass_fabricator_material"), new CustomItemStack(Material.BEACON, "&9&lMass Fabricator", "", "&a&oFabricate it using a Mass Fabricator"));
-        ldType = new RecipeType(new NamespacedKey(main, "leaves_decay_material"), new CustomItemStack(Material.OAK_LEAVES, "&bLeaves Decay", "", "&aObtain this item when Leaves decay (can be any leaves)"));
+        iwType = new RecipeType(new NamespacedKey(main, "industrial_crafting_table_material"), new CustomItemStack(Material.CRAFTING_TABLE, "&b工厂合成台", "", "&a&o在工厂合成台中制造"));
+        pbType = new RecipeType(new NamespacedKey(main, "plate_bender_material"), new CustomItemStack(Material.PISTON, "&b压板机", "", "&a&o在压板机中压制"));
+        mfType = new RecipeType(new NamespacedKey(main, "mass_fabricator_material"), new CustomItemStack(Material.BEACON, "&9&l零件工厂", "", "&a&o在零件工厂中制造"));
+        ldType = new RecipeType(new NamespacedKey(main, "leaves_decay_material"), new CustomItemStack(Material.OAK_LEAVES, "&b树叶衰败", "", "&a当树叶衰败的时候可以获得它"));
     }
 
     public static void setupItems(Slimedustry main) {
@@ -84,7 +84,7 @@ public class Setup {
             public void onInteract(Player player, Block block) {
             }
         };
-        pbMachine = new MultiBlockMachine(SLIMEDUSTRY, PLATE_BENDER, new ItemStack[]{null, null, null, null, new ItemStack(Material.PISTON), null, null, new CustomItemStack(Material.DISPENSER, "&r&oDispenser (Facing Up)"), null}, /*new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.REINFORCED_ALLOY_INGOT, REINFORCED_ALLOY_PLATE}, */new ItemStack[0], BlockFace.SELF) {
+        pbMachine = new MultiBlockMachine(SLIMEDUSTRY, PLATE_BENDER, new ItemStack[]{null, null, null, null, new ItemStack(Material.PISTON), null, null, new CustomItemStack(Material.DISPENSER, "&r&o发射器 (口朝上)"), null}, /*new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.REINFORCED_ALLOY_INGOT, REINFORCED_ALLOY_PLATE}, */new ItemStack[0], BlockFace.SELF) {
             @Override
             public void onInteract(Player player, Block block) {
             }
@@ -187,21 +187,21 @@ public class Setup {
     }
 
     public static void setupResearches(Slimedustry main) {
-        new Research(new NamespacedKey(main, "industrial_workbench"), 85851001, "Industrial Crafting Table", 8).addItems(INDUSTRIAL_WORKBENCH).register();
-        new Research(new NamespacedKey(main, "tank"), 85851002, "Liquid Storage", 7).addItems(TANK).register();
-        new Research(new NamespacedKey(main, "reinforced_glass"), 85851003, "Reinforced Glass", 10).addItems(SD_REINFORCED_GLASS).register();
-        new Research(new NamespacedKey(main, "plate_bender"), 85851004, "Plate Bender", 12).addItems(PLATE_BENDER).register();
-        new Research(new NamespacedKey(main, "mining_laser"), 85851005, "Mining Laser", 13).addItems(MINING_LASER).register();
-        new Research(new NamespacedKey(main, "nuke"), 85851006, "Nuke", 15).addItems(NUKE).register();
-        new Research(new NamespacedKey(main, "sticky_situation"), 85851007, "Sticky Situation", 5).addItems(SD_STICKY_RESIN).register();
-        new Research(new NamespacedKey(main, "plates"), 85851008, "Plates", 6).addItems(REINFORCED_ALLOY_PLATE, SD_IRIDIUM_PLATE).register();
-        new Research(new NamespacedKey(main, "tech_boots"), 85851009, "Tech Boots", 7).addItems(STATIC_BOOTS, SD_RUBBER_BOOTS).register();
-        new Research(new NamespacedKey(main, "totally_worth_it"), 85851010, "Totally Worth It", 18).addItems(MASS_FABRICATOR).register();
-        new Research(new NamespacedKey(main, "high-grade"), 85851011, "High-Grade", 18).addItems(TITANIUM_INGOT, TITANIUM_DUST, IMPURE_TITANIUM_DUST).register();
-        new Research(new NamespacedKey(main, "cutting_the_rocks"), 85851012, "Cutting The Rocks", 14).addItems(ROCK_CUTTER).register();
-        new Research(new NamespacedKey(main, "iridium_ore"), 85851013, "Iridium Ore", 15).addItems(IRIDIUM_ORE).register();
-        new Research(new NamespacedKey(main, "nanosuit"), 85851014, "NanoSuit", 13).addItems(NANO_HELMET, NANO_CHESTPLATE, NANO_LEGGINGS, NANO_BOOTS).register();
-        new Research(new NamespacedKey(main, "tankin"), 85851014, "Tankin'", 11).addItems(COMPOSITE_VEST).register();
+        new Research(new NamespacedKey(main, "industrial_workbench"), 85851001, "工厂合成台", 8).addItems(INDUSTRIAL_WORKBENCH).register();
+        new Research(new NamespacedKey(main, "tank"), 85851002, "液体存储", 7).addItems(TANK).register();
+        new Research(new NamespacedKey(main, "reinforced_glass"), 85851003, "特种玻璃", 10).addItems(SD_REINFORCED_GLASS).register();
+        new Research(new NamespacedKey(main, "plate_bender"), 85851004, "压板机", 12).addItems(PLATE_BENDER).register();
+        new Research(new NamespacedKey(main, "mining_laser"), 85851005, "激光采矿器", 13).addItems(MINING_LASER).register();
+        new Research(new NamespacedKey(main, "nuke"), 85851006, "小型核弹", 15).addItems(NUKE).register();
+        new Research(new NamespacedKey(main, "sticky_situation"), 85851007, "合成树脂", 5).addItems(SD_STICKY_RESIN).register();
+        new Research(new NamespacedKey(main, "plates"), 85851008, "板", 6).addItems(REINFORCED_ALLOY_PLATE, SD_IRIDIUM_PLATE).register();
+        new Research(new NamespacedKey(main, "tech_boots"), 85851009, "科技靴子", 7).addItems(STATIC_BOOTS, SD_RUBBER_BOOTS).register();
+        new Research(new NamespacedKey(main, "totally_worth_it"), 85851010, "零件工厂", 18).addItems(MASS_FABRICATOR).register();
+        new Research(new NamespacedKey(main, "high-grade"), 85851011, "钛", 18).addItems(TITANIUM_INGOT, TITANIUM_DUST, IMPURE_TITANIUM_DUST).register();
+        new Research(new NamespacedKey(main, "cutting_the_rocks"), 85851012, "岩石切割机", 14).addItems(ROCK_CUTTER).register();
+        new Research(new NamespacedKey(main, "iridium_ore"), 85851013, "依矿", 15).addItems(IRIDIUM_ORE).register();
+        new Research(new NamespacedKey(main, "nanosuit"), 85851014, "工厂装备", 13).addItems(NANO_HELMET, NANO_CHESTPLATE, NANO_LEGGINGS, NANO_BOOTS).register();
+        new Research(new NamespacedKey(main, "tankin"), 85851014, "复合材背心", 11).addItems(COMPOSITE_VEST).register();
     }
 
     public static void changeRecipes() {
@@ -236,9 +236,9 @@ public class Setup {
         SlimefunItem.getByItem(SlimefunItems.PARACHUTE).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.SOLAR_HELMET).setRecipeType(iwType);
         SlimefunItem.getByItem(SlimefunItems.ARMORED_JETBOOTS).setRecipeType(iwType);
-        SlimefunItem.getByItem(SlimefunItems.SCUBA_HELMET).setRecipe(new ItemStack[]{new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.BLACK_WOOL), null, null, null});
+        SlimefunItem.getByItem(SlimefunItems.SCUBA_HELMET).setRecipe(new ItemStack[]{new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new CustomItemStack(Material.GLASS, "&b特种玻璃"), new ItemStack(Material.BLACK_WOOL), null, null, null});
         SlimefunItem.getByItem(SlimefunItems.HAZMAT_BOOTS).setRecipe(new ItemStack[]{null, null, null, SD_RUBBER, null, SD_RUBBER, SD_RUBBER, null, SD_RUBBER});
-        SlimefunItem.getByItem(SlimefunItems.NIGHT_VISION_GOGGLES).setRecipe(new ItemStack[]{new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&bReinforced Glass"), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)});
+        SlimefunItem.getByItem(SlimefunItems.NIGHT_VISION_GOGGLES).setRecipe(new ItemStack[]{new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&b特种玻璃"), new ItemStack(Material.COAL_BLOCK), new CustomItemStack(Material.GLASS, "&b特种玻璃"), new ItemStack(Material.COAL_BLOCK), null, new ItemStack(Material.COAL_BLOCK)});
         SlimefunItem.getByItem(SlimefunItems.STEEL_PLATE).setRecipe(new ItemStack[]{null, null, null, null, SlimefunItem.getByItem(SlimefunItems.STEEL_INGOT).getItem(), null, null, null, null});
         SlimefunItem.getByItem(SlimefunItems.STEEL_PLATE).setRecipeType(pbType);
     }

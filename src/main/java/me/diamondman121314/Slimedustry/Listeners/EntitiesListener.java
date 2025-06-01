@@ -60,7 +60,7 @@ public class EntitiesListener implements Listener {
         if (e.getEntityType() == EntityType.SNOWBALL) {
             Snowball s = (Snowball) e.getEntity();
             Player p = (Player) s.getShooter();
-            if (p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&bMining Laser")) {
+            if (p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HORSE_ARMOR && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("&b激光采矿器")) {
                 BlockIterator iterator = new BlockIterator(e.getEntity().getWorld(), e.getEntity().getLocation().toVector(), e.getEntity().getVelocity().normalize(), 0.0, 4);
                 Block b = null;
                 while (iterator.hasNext()) {
@@ -74,14 +74,14 @@ public class EntitiesListener implements Listener {
                 }
                 Vector vec = s.getVelocity();
                 s.remove();
-                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Mining")) {
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6模式: &1挖矿")) {
                     b.breakNaturally();
                 }
 
-                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1Explosive")) {
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6模式: &1爆炸")) {
                     b.getWorld().createExplosion(b.getLocation(), this.plugin.getConfig().getInt("MiningLaser.ExplosionStrength"));
                 }
-                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6Mode: &1SuperHeat"))
+                if (((String) p.getInventory().getItemInMainHand().getItemMeta().getLore().get(0)).equalsIgnoreCase("&6模式: &1高温"))
                     b.setType(Material.FIRE);
             }
         }
@@ -103,11 +103,11 @@ public class EntitiesListener implements Listener {
             List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
 
 
-            double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-            double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-            if (lore.size() > 2 && ((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:") && Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue() <= capacity) {
+            double charge = Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            double capacity = Double.valueOf(((String) lore.get(2)).replace("电容: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+            if (lore.size() > 2 && ((String) lore.get(1)).contains("电量:") && ((String) lore.get(2)).contains("电容:") && Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue() <= capacity) {
                 charge = Double.valueOf((new DecimalFormat("##.##")).format(charge + this.plugin.getConfig().getDouble("StaticBootsGeneration")).replace(",", ".")).doubleValue();
-                lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
+                lore.set(1, "&7电量: &b" + String.valueOf(charge) + " J");
                 ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
                 im.setLore(lore);
                 p.getInventory().getItemInMainHand().setItemMeta(im);
@@ -120,14 +120,14 @@ public class EntitiesListener implements Listener {
         Entity ent = e.getEntity();
         if (ent.getType() == EntityType.PLAYER) {
             Player p = (Player) ent;
-            if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Boots")) {
+            if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&8&l工厂靴子")) {
                 p.getInventory().getBoots().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getBoots())) {
                     ItemMeta im = p.getInventory().getBoots().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 2.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7电量: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getBoots().setItemMeta(im);
                     }
@@ -135,14 +135,14 @@ public class EntitiesListener implements Listener {
             }
 
 
-            if (p.getInventory().getLeggings() != null && p.getInventory().getLeggings().hasItemMeta() && p.getInventory().getLeggings().getItemMeta().hasDisplayName() && p.getInventory().getLeggings().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Leggings")) {
+            if (p.getInventory().getLeggings() != null && p.getInventory().getLeggings().hasItemMeta() && p.getInventory().getLeggings().getItemMeta().hasDisplayName() && p.getInventory().getLeggings().getItemMeta().getDisplayName().equalsIgnoreCase("&8&l工厂护腿")) {
                 p.getInventory().getLeggings().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getLeggings())) {
                     ItemMeta im = p.getInventory().getLeggings().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 3.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7电量: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getLeggings().setItemMeta(im);
                     }
@@ -150,14 +150,14 @@ public class EntitiesListener implements Listener {
             }
 
 
-            if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().hasItemMeta() && p.getInventory().getChestplate().getItemMeta().hasDisplayName() && p.getInventory().getChestplate().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Chestplate")) {
+            if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().hasItemMeta() && p.getInventory().getChestplate().getItemMeta().hasDisplayName() && p.getInventory().getChestplate().getItemMeta().getDisplayName().equalsIgnoreCase("&8&l工厂胸甲")) {
                 p.getInventory().getChestplate().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getChestplate())) {
                     ItemMeta im = p.getInventory().getChestplate().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 4.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7电量: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getChestplate().setItemMeta(im);
                     }
@@ -165,14 +165,14 @@ public class EntitiesListener implements Listener {
             }
 
 
-            if (p.getInventory().getHelmet() != null && p.getInventory().getHelmet().hasItemMeta() && p.getInventory().getHelmet().getItemMeta().hasDisplayName() && p.getInventory().getHelmet().getItemMeta().getDisplayName().equalsIgnoreCase("&8&lNanoSuit Helmet")) {
+            if (p.getInventory().getHelmet() != null && p.getInventory().getHelmet().hasItemMeta() && p.getInventory().getHelmet().getItemMeta().hasDisplayName() && p.getInventory().getHelmet().getItemMeta().getDisplayName().equalsIgnoreCase("&8&l工厂头盔")) {
                 p.getInventory().getHelmet().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getHelmet())) {
                     ItemMeta im = p.getInventory().getHelmet().getItemMeta();
                     List<String> lore = im.getLore();
-                    if (Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
+                    if (Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge") >= 0.0) {
                         e.setDamage(e.getDamage() - 2.0);
-                        lore.set(1, "&7Charge: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
+                        lore.set(1, "&7电量: &b" + Double.valueOf((new DecimalFormat("##.##")).format(Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue() - this.plugin.getConfig().getDouble("NanoSuitCharge"))));
                         im.setLore(lore);
                         p.getInventory().getHelmet().setItemMeta(im);
                     }
@@ -180,7 +180,7 @@ public class EntitiesListener implements Listener {
             }
 
 
-            if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&6Rubber Boots")) {
+            if (p.getInventory().getBoots() != null && p.getInventory().getBoots().hasItemMeta() && p.getInventory().getBoots().getItemMeta().hasDisplayName() && p.getInventory().getBoots().getItemMeta().getDisplayName().equalsIgnoreCase("&6特制橡胶靴子")) {
                 p.getInventory().getBoots().setDurability((short) 0);
                 if (hasUnlocked(p, p.getInventory().getBoots()) && e.getCause() == EntityDamageEvent.DamageCause.FALL)
                     e.setCancelled(true);

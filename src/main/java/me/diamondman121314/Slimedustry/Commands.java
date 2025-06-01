@@ -71,11 +71,11 @@ public class Commands implements CommandExecutor {
                     if (lore.size() < 3) {
                         return true;
                     }
-                    if (((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:")) {
-                        double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-                        double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                    if (((String) lore.get(1)).contains("电量:") && ((String) lore.get(2)).contains("电容:")) {
+                        double charge = Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                        double capacity = Double.valueOf(((String) lore.get(2)).replace("电容: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                         charge = capacity;
-                        lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
+                        lore.set(1, "&7电量: &b" + String.valueOf(charge) + " J");
                         ItemMeta im = target.getInventory().getItemInMainHand().getItemMeta();
                         im.setLore(lore);
                         target.getInventory().getItemInMainHand().setItemMeta(im);
@@ -125,11 +125,11 @@ public class Commands implements CommandExecutor {
                     if (lore.size() < 3) {
                         return true;
                     }
-                    if (((String) lore.get(1)).contains("Charge:") && ((String) lore.get(2)).contains("Capacity:")) {
-                        double charge = Double.valueOf(((String) lore.get(1)).replace("Charge: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
-                        double capacity = Double.valueOf(((String) lore.get(2)).replace("Capacity: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                    if (((String) lore.get(1)).contains("电量:") && ((String) lore.get(2)).contains("电容:")) {
+                        double charge = Double.valueOf(((String) lore.get(1)).replace("电量: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
+                        double capacity = Double.valueOf(((String) lore.get(2)).replace("电容: ", "").replace(" J", "").replace("&7", "").replace("&b", "")).doubleValue();
                         charge = capacity;
-                        lore.set(1, "&7Charge: &b" + String.valueOf(charge) + " J");
+                        lore.set(1, "&7电量: &b" + String.valueOf(charge) + " J");
                         ItemMeta im = target.getInventory().getItemInMainHand().getItemMeta();
                         im.setLore(lore);
                         target.getInventory().getItemInMainHand().setItemMeta(im);
