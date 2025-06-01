@@ -24,25 +24,25 @@ public class Commands implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
-                p.sendMessage(ChatColors.color("&r\n&aSlimedustry &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &bReloads the config\n&3/sd charge {Player} &bFully charges the item in the main hand"));
+                p.sendMessage(ChatColors.color("&r\n&a粘液工厂 &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &b重载配置\n&3/sd charge {Player} &b为玩家主手物品充满电"));
                 return true;
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 if (!p.hasPermission("Slimedustry.reload")) {
-                    p.sendMessage(ChatColor.DARK_RED + "You are not allowed to do this!");
+                    p.sendMessage(ChatColor.DARK_RED + "你没有足够的权限!");
                     return true;
                 }
                 this.plugin.getConfig().options().copyDefaults(true);
                 this.plugin.reloadConfig();
-                p.sendMessage(ChatColor.DARK_GREEN + "Config Reloaded!");
+                p.sendMessage(ChatColor.DARK_GREEN + "配置重载成功!");
             }
             if (args[0].equalsIgnoreCase("charge")) {
                 if (!p.hasPermission("Slimedustry.charge")) {
-                    p.sendMessage(ChatColor.DARK_RED + "You are not allowed to do this!");
+                    p.sendMessage(ChatColor.DARK_RED + "你没有足够的权限!");
                     return true;
                 }
                 if (args.length == 1) {
-                    p.sendMessage(ChatColor.RED + "Usage: /sd charge {Player}");
+                    p.sendMessage(ChatColor.RED + "用法: /sd charge {Player}");
                     return true;
                 }
                 Player target = null;
@@ -59,7 +59,7 @@ public class Commands implements CommandExecutor {
                 }
 
                 if (target == null) {
-                    p.sendMessage(ChatColor.DARK_RED + "Player not found!");
+                    p.sendMessage(ChatColor.DARK_RED + "找不到指定玩家!");
                 } else {
                     if (target.getInventory().getItemInMainHand() == null) {
                         return true;
@@ -86,17 +86,17 @@ public class Commands implements CommandExecutor {
 
             ConsoleCommandSender c = (ConsoleCommandSender) sender;
             if (args.length == 0) {
-                c.sendMessage(ChatColors.color("&r\n&aSlimedustry &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &bReloads the config\n&3/sd charge {Player} &bFully charges the item in the main hand"));
+                c.sendMessage(ChatColors.color("&r\n&a粘液工厂 &2v" + plugin.getDescription().getVersion() + "\n&r\n&3/sd reload &b重载配置\n&3/sd charge {Player} &b为玩家主手物品充满电"));
                 return true;
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 this.plugin.getConfig().options().copyDefaults(true);
                 this.plugin.reloadConfig();
-                c.sendMessage(ChatColor.GREEN + "Config Reloaded!");
+                c.sendMessage(ChatColor.GREEN + "配置重载成功!");
             }
             if (args[0].equalsIgnoreCase("charge")) {
                 if (args.length == 1) {
-                    c.sendMessage(ChatColor.RED + "Usage: /sd charge {PlayerName}");
+                    c.sendMessage(ChatColor.RED + "用法: /sd charge {PlayerName}");
                     return true;
                 }
                 Player target = null;
@@ -113,7 +113,7 @@ public class Commands implements CommandExecutor {
                 }
 
                 if (target == null) {
-                    c.sendMessage(ChatColor.RED + "Player not found!");
+                    c.sendMessage(ChatColor.RED + "找不到指定玩家!");
                 } else {
                     if (target.getInventory().getItemInMainHand() == null) {
                         return true;
