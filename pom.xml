@@ -31,7 +31,7 @@
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-        <finalName>[sf]${project.name} v${project.version}</finalName>
+        <finalName>${project.name} v${project.version}</finalName>
 
         <plugins>
             <plugin>
