@@ -35,7 +35,7 @@ public class InventoryListener implements Listener {
     public void onInventoryMove(InventoryMoveItemEvent e) {
         Inventory i = e.getSource();
         ItemStack moved = e.getItem();
-        if (moved.getType() == Material.TERRACOTTA && moved.hasItemMeta() && (moved.getItemMeta().getDisplayName().equalsIgnoreCase("&bWater") || moved.getItemMeta().getDisplayName().equalsIgnoreCase("&6Lava")) && i.getType() == InventoryType.DISPENSER)
+        if (moved.getType() == Material.TERRACOTTA && moved.hasItemMeta() && (moved.getItemMeta().getDisplayName().equalsIgnoreCase("&b水") || moved.getItemMeta().getDisplayName().equalsIgnoreCase("&6岩浆")) && i.getType() == InventoryType.DISPENSER)
             e.setCancelled(true);
     }
 }
